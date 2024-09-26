@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/09/26 17:46:10 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:58:36 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_symposium_mutabilitas
 	int			*has_eaten_enough;
 	int			*is_sitting;
 	int			*symposium_state;
-	int			*speaking; // a philosopher (thread) is saying something, I'm eating...
+	int			*is_speaking; // a philosopher (thread) is saying something, I'm eating...
 }				t_mutabilitas;
 
 typedef struct s_m_mutex
@@ -60,7 +60,7 @@ typedef struct s_m_mutex
 	pthread_mutex_t dead_ph;
 	pthread_mutex_t has_eaten_enough;
 	pthread_mutex_t is_sitting;
-	pthread_mutex_t symposium_state;
+	pthread_mutex_t symposium_state; // DEAD, READY,
 }				t_m_mutex;
 
 typedef struct s_ph_mutex
@@ -76,3 +76,8 @@ typedef struct s_ph_mutex
 
 
 #endif
+
+// EXCALIDRAW LINK = https://excalidraw.com/#json=aSP-cFXtHODqo-lD-4_kH,DEu99ChgbpOQVXfzuipq-Q
+// To do : Fonction d'initialisation (monitor, fourchette, philo)
+// Fonction pour recuperer l'heure et la conversion exacte sans ecart en milliseconde
+// Finir parsing avec nottamment le blocage des overflow et des debordement. 
