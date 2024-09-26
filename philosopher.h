@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/09/26 17:35:18 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:46:10 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ typedef struct s_ph_mutex
 	pthread_mutex_t	*rf; // Chaque thread (Philosopher) a sa propre structure representant ses fourchettes. Mais en realite il n'a que la fourchette de gauche qui lui appartint reellement,
 						//	la fourchette de droite il ne connait que son emplacement grace a l'adresse du Mutex qui represente la fourchette de gauche de son voisin.
 						// A garder en tete que la fourchette de droite de l'un des philosopher est la fourchette de gauche d'un autre philosopher.
-	 					 // Il forme un cercle, donc pour que l'on soit sur le meme mutex, donc chacun des philos a un mutex sur sa fourchette de droite, et l'adresse du mutex de sa fourchette de gauche).
+	 					 // Il forme un cercle, donc pour que l'on soitd sur le meme mutex, donc chacun des philos a un mutex sur sa fourchette de droite, et l'adresse du mutex de sa fourchette de gauche).
 }				t_ph_mutex;
 
 
