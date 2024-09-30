@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"test_thread.C": "cpp",
-		"test_thread copy.C": "cpp"
+		"test_thread copy.C": "cpp",
+		"structure.h": "c"
 	}
 }

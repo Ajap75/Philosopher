@@ -6,11 +6,12 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/09/25 17:19:53 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/09/30 19:44:33 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosopher.h"
+#include "structure.h"
+#include "function.h"
 
 // void	*speak(void *){printf("HELLO WORLD FROM THREAD NUMBER %d\n,")}
 
@@ -101,26 +102,17 @@ int	ft_atoi(const char *nptr)
 	}
 	return (sign * result);
 }
-
-int	parsing(int argc, char **argv, t_data_sim *big_brother)
+int	parsing(int argc, char **argv, t_monitor *monitor)
 {
+	(void)monitor;
 	if (argc >= 5 && argc <= 6)
 	{
 		if (is_arg_digit(argc, argv))
 			return(1);
 		// if(is_arg_an_positive_int(argc, argv))
 
-		// set_nbr_philo(big_brother, argv[1])
-		big_brother->nbr_philo = ft_atoi(argv[1]);
-		big_brother->time_to_die = ft_atoi(argv[2]);
-		big_brother->time_to_eat = ft_atoi(argv[3]);
-		big_brother->time_to_sleep = ft_atoi(argv[4]);
-		if (argc == 6)
-			big_brother->meal_goal = ft_atoi(argv[5]);
-		else
-			big_brother->meal_goal = -1;
-
-		if (big_brother->nbr_philo < 1)
+		// set_nbr_philo(monitor, argv[1]);
+		if (ft_atoi(argv[1]) < 1)
 		{
 			write(1, "Not enough philosopher to run the simulation\n", 46);
 			return(1);
@@ -133,70 +125,155 @@ int	parsing(int argc, char **argv, t_data_sim *big_brother)
 	}
 	return(0);
 }
-
-void init_big_brother(t_data_sim *big_brother)
+int	get_time()
 {
-	big_brother->philos = malloc(sizeof(pthread_t) * big_brother->nbr_philo);
+	struct timeval current_time ;
+	gettimeofday(&current_time, NULL);
+	return (current_time.tv_usec);
+}
+
+void init_monitor(t_monitor *monitor, int argc, char *argv[])
+{
+	monitor->veritas = malloc(sizeof(t_veritas));
+	monitor->veritas->nbr_philo = ft_atoi(argv[1]);
+	monitor->veritas->time_to_die = ft_atoi(argv[2]);
+	monitor->veritas->time_to_eat = ft_atoi(argv[3]);
+	monitor->veritas->time_to_sleep = ft_atoi(argv[4]);
+	monitor->veritas->start_time = get_time();
+
+	if (argc == 6)
+		monitor->veritas->meal_target = ft_atoi(argv[5]);
+	else
+		monitor->veritas->meal_target = -1;
+	monitor->philos = malloc(sizeof(t_philo) * monitor->veritas->nbr_philo);
 	return ;
 }
-void *speak(t_philo *philo)
+
+void	speak(t_philo *philo)
 {
-	printf("Je suis le PHILO d'adresse %lu, et je parle FORT\n", philo->t_pi);
+	pthread_mutex_lock(philo->monitor->mutex.is_speaking);
+	{
+		printf("Philosophe number %d is eating\n", philo->id);
+	}
+	pthread_mutex_unlock(philo->monitor->mutex.is_speaking);
+
+
+}
+void	eat(t_philo *philo)
+{
+	printf("Je passe la routine\n");
+	pthread_mutex_lock(philo->forks.lf.lf);
+	pthread_mutex_lock(&philo->forks.rf.rf);
+	{
+		philo->meals_eaten++;
+		speak(philo);
+		usleep(philo->monitor->veritas->time_to_eat * 1000);
+		printf("Philosophe number %d is done eating\n", philo->id);
+
+	}
+	pthread_mutex_unlock(philo->forks.lf.lf);
+	pthread_mutex_unlock(&philo->forks.rf.rf);
+}
+int	init_fork(t_monitor *monitor, t_philo *philo)
+{
+		pthread_mutex_init(&philo->forks.lf, NULL);
+
+		if (philo->id == monitor->veritas->nbr_philo)
+			philo->forks.rf = philo[0].forks.lf;
+		else
+			philo->forks.rf = philo[philo->id + 1].forks->lf;
+
+	return(0);
+}
+void *routine(t_philo *philo)
+{
+	printf("Je passe la routine\n");
+	eat(philo);
+	// sleep(monitor);
+	// think(monitor);
+	// printf("Je suis le PHILO d'adresse %lu, et je parle FORT\n", philo->ph);
 	return (void *)(NULL);
 }
 
-void	init_philos(t_data_sim *big_brother)
+void	init_philos(t_monitor *monitor)
 {
 	printf("Je passe la\n");
 	int i;
 
 	i = 0;
-	while(i < big_brother->nbr_philo)
+	while(i < monitor->veritas->nbr_philo)
 	{
-		pthread_create(&big_brother->philos[i].t_pi, NULL, (void *)speak, &big_brother->philos[i]);
+		monitor->philos[i].id = i + 1;
+		monitor->philos[i].meals_eaten = 0;
+		monitor->philos[i].time_since_lase_meal = 0;
+		monitor->philos[i].status = 0;
+		monitor->philos[i].meals_eaten = 0;
+		monitor->philos[i].veritas= monitor->veritas;
+		monitor->philos[i].monitor= monitor;
+		init_fork(monitor, &monitor->philos[i]);
+		pthread_create(&monitor->philos[i].ph, NULL, (void *)routine, &monitor->philos[i]);
 		i++;
 	}
 	i = 0;
-	while(i < big_brother->nbr_philo)
+
+	while(i < monitor->veritas->nbr_philo)
 	{
-		pthread_join(big_brother->philos[i].t_pi, NULL);
+		pthread_join(monitor->philos[i].ph, NULL);
 		i++;
 	}
 
 }
 
-// void	destroy_philos(t_data_sim *big_brother)
+// void	destroy_philos(t_monitor *monitor)
 // {
 // 	int i;
 // 	i = 0;
 
-// 	while (*(big_brother->philos[i])
+// 	while (*(monitor->philos[i])
 // 	{
-// 		free(big_brother->philos)
+// 		free(monitor->philos)
 // 	}
 // }
+
 int	main(int argc, char *argv[])
 {
-	t_data_sim big_brother;
+	t_monitor monitor;
+	int i;
 
-	if ((parsing(argc, argv, &big_brother)))
+	i = 0;
+
+	if ((parsing(argc, argv, &monitor)))
 		return(1);
-	init_big_brother(&big_brother);
-	init_philos(&big_brother);
-	// destroy_philos(&big_brother);
-	// int nbr_philo;
+	init_monitor(&monitor, argc, argv);
+
+	init_philos(&monitor);
+	// init_fork(&monitor);
+	// destroy_philos(&monitor);
+	// int nbr_philo;z		monitor->philos[i].forks.rf.rf = &monitor->philos[i + 1].forks.lf.lf;
+
 	// nbr_philo = atoi(argv[1]);
 	// if (argc >= 2)
 	// {
 	// 	init_ph(nbr_philo);
 
-	printf("\n*** SIMULATION CONDITIONS ***\n");
-	printf("  Number of philosopher = %d\n", big_brother.nbr_philo);
-	printf("  Time to die = %d\n", big_brother.time_to_die);
-	printf("  Time to eat = %d\n", big_brother.time_to_eat);
-	printf("  Time to sleep = %d\n", big_brother.time_to_sleep);
-	printf("  Meal goal = %d\n\n", big_brother.meal_goal);
+	printf("\n \033[0;33m*** SIMULATION CONDITIONS ***\033[0m\n");
+	printf("  Number of philosopher = %d\n", monitor.veritas->nbr_philo);
+	printf("  Time to die = %d\n", monitor.veritas->time_to_die);
+	printf("  Time to eat = %d\n", monitor.veritas->time_to_eat);
+	printf("  Time to sleep = %d\n", monitor.veritas->time_to_sleep);
+	printf("  Meal goal = %d\n\n", monitor.veritas->meal_target);
+	printf("  Start Time = %d\n\n", monitor.veritas->start_time);
+
+
+	// printf("\n \033[0;33m*** FORK STATE ***\033[0m\n");
+	// while (i < monitor.veritas->nbr_philo)
+	// {
+	// 	printf(" Philo name :%d, left fork = %d and right fork = %d\n", monitor.philos[i].id, monitor.philos[i].forks.lf.id, *monitor.philos[i].forks.rf.id);
+	// 	i++;
+	// }
+
 
 	write(1, "PARSING OK\n", 12);
+	clean(&monitor);
 	return(0);
 }
