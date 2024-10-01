@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/09/30 19:40:11 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/01 14:06:48 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ typedef struct s_m_mutex
 	pthread_mutex_t has_eaten_enough;
 	pthread_mutex_t is_sitting;
 	pthread_mutex_t symposium_state; // DEAD, READY,
-	pthread_mutex_t *is_speaking;
+	pthread_mutex_t is_speaking;
 
 }				t_m_mutex;
 
@@ -57,7 +57,7 @@ typedef struct s_m_mutex
 typedef struct s_ph_mutex
 {
 	pthread_mutex_t	lf;
-	pthread_mutex_t	rf;
+	pthread_mutex_t	*rf;
 	 // Chaque thread (Philosopher) a sa propre structure representant ses fourchettes. Mais en realite il n'a que la fourchette de gauche qui lui appartint reellement,
 						//	la fourchette de droite il ne connait que son emplacement grace a l'adresse du Mutex qui represente la fourchette de gauche de son voisin.
 						// A garder en tete que la fourchette de droite de l'un des philosopher est la fourchette de gauche d'un autre philosopher.
@@ -71,7 +71,7 @@ typedef struct s_philo
 	int			status;
 	t_veritas	*veritas; //pointeur vers les datas immutables de la simulation
 	int			meals_eaten;
-	int			time_since_lase_meal;
+	int			last_meal_time;
 	t_ph_mutex	forks;
 	t_monitor	*monitor;
 }				t_philo;
