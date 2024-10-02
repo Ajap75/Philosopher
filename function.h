@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/02 12:14:10 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/02 13:47:53 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,3 +66,4 @@ void	set_is_speaking(t_monitor *monitor, int is_speaking);
 int	get_is_speaking(t_monitor *monitor);
 
 #endif
+
