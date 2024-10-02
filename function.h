@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/02 13:49:53 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/02 17:33:59 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ int		parsing(int argc, char **argv, t_monitor *monitor);
 
 // Support
 int		get_time(void);
+void	printf_mutex(pthread_mutex_t *pthread_mutex);
+
 
 // Initialisation
 void	init_philos(t_monitor *monitor);
@@ -49,6 +51,7 @@ int		is_everybody_sitting(t_monitor *monitor);
 
 // Routine philo
 void	*routine(void *arg);
+void	pre_drink(t_philo *philo);
 void	eat(t_philo *philo);
 void	bedtime(t_philo *philo);
 void	speak(t_philo *philo, int action, int statut);
@@ -64,6 +67,9 @@ void	set_symposium_state(t_monitor *monitor, int symposium_state);
 int	get_symposium_state(t_monitor *monitor);
 void	set_is_speaking(t_monitor *monitor, int is_speaking);
 int	get_is_speaking(t_monitor *monitor);
+void	give_the_mic_back(t_monitor *monitor);
+void	ask_the_mic(t_monitor *monitor);
+
 
 #endif
 
