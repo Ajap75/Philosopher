@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/01 18:04:37 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/02 10:40:59 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,28 @@ void	think(t_philo *philo)
 		speak(philo, philo->status, START_ACTION);
 		speak(philo, philo->status, END_ACTION);
 }
-void *routine(t_philo *philo)
+
+
+int	simulation_goes_on(t_monitor *monitor)
 {
-	eat(philo);
-	bedtime(philo);
-	think(philo);
+	if (monitor->veritas->meal_target > 0 && *monitor->mutabilitas->has_eaten_enough >= monitor->veritas->meal_target)
+		return (0);
+	else if (*monitor->mutabilitas->dead_ph_id != -1)
+		return (0);
+	return (1);
+}
+
+void *routine(void *arg)
+{
+	t_philo *philo;
+	philo = (t_philo *)arg;
+		printf("je boucle \n");
+	while (simulation_goes_on(philo->monitor))
+	{
+		eat(philo);
+		bedtime(philo);
+		think(philo);
+	}
 	// printf("Je suis le PHILO d'adresse %lu, et je parle FORT\n", philo->ph);
 	return (void *)(NULL);
 }
@@ -51,7 +68,7 @@ int	is_everybody_sitting(t_monitor *monitor)
 {
  	pthread_mutex_lock(&monitor->mutex.is_sitting);
 	{
-		if(*monitor->mutabilitas->is_sitting >= monitor->veritas->nbr_philo)
+		if(*monitor->mutabilitas->is_sitting == monitor->veritas->nbr_philo)
 		{
 			*monitor->mutabilitas->symposium_state = READY;
 			return (1);
@@ -60,20 +77,32 @@ int	is_everybody_sitting(t_monitor *monitor)
 			return (0);
 	}
 }
-void *routine_monitor(t_monitor *monitor)
+void *routine_monitor(void *arg)
 {
+	t_monitor *monitor;
+	int result;
+
+	monitor = (t_monitor *)arg;
+
+
 	while (1)
 	{
-		if (is_everybody_sitting(monitor))
+		result = is_everybody_sitting(monitor);
+		if (result == 1)
+		{
+			printf("result = %d\n", result);
 			break;
+		}
+
 	}
 
 	while(1)
 	{
 		if (who_has_died(monitor))
 			break;
-
+		printf("1\n");
 	}
+	printf("3\n");
 	return (void *)(NULL);
 }
 
@@ -85,7 +114,7 @@ void	eat(t_philo *philo)
 		philo->last_meal_time = get_time();
 		philo->status = EATING;
 		philo->meals_eaten++;
-		if (philo->meals_eaten >= philo->veritas->meal_target)
+		if (philo->veritas->meal_target >= 0 && philo->meals_eaten >= philo->veritas->meal_target)
 		{
 			pthread_mutex_lock(&philo->monitor->mutex.has_eaten_enough);
 			(*philo->monitor->mutabilitas->has_eaten_enough)++;

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/01 18:06:54 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/02 12:08:21 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,11 @@ void init_monitor(t_monitor *monitor, int argc, char *argv[])
 {
 	monitor->veritas = malloc(sizeof(t_veritas));
 	monitor->mutabilitas = malloc(sizeof(t_mutabilitas));
+	pthread_mutex_init(&monitor->mutex.is_speaking, NULL);
+	pthread_mutex_init(&monitor->mutex.dead_ph, NULL);
+	pthread_mutex_init(&monitor->mutex.is_sitting, NULL);
+	pthread_mutex_init(&monitor->mutex.symposium_state, NULL);
+	pthread_mutex_init(&monitor->mutex.has_eaten_enough, NULL);
 	monitor->mutabilitas->dead_ph_id = malloc(sizeof(int));
 	monitor->mutabilitas->has_eaten_enough = malloc(sizeof(int));
 	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
@@ -35,21 +40,15 @@ void init_monitor(t_monitor *monitor, int argc, char *argv[])
 
 
 	pthread_create(&monitor->monitor, NULL, (void *)routine_monitor, monitor);
-	pthread_mutex_init(&monitor->mutex.is_speaking, NULL);
-	pthread_mutex_init(&monitor->mutex.dead_ph, NULL);
-	pthread_mutex_init(&monitor->mutex.is_sitting, NULL);
-	pthread_mutex_init(&monitor->mutex.symposium_state, NULL);
-	pthread_mutex_init(&monitor->mutex.has_eaten_enough, NULL);
 	monitor->veritas->nbr_philo = ft_atoi(argv[1]);
 	monitor->veritas->time_to_die = ft_atoi(argv[2]);
 	monitor->veritas->time_to_eat = ft_atoi(argv[3]);
 	monitor->veritas->time_to_sleep = ft_atoi(argv[4]);
 	monitor->veritas->start_time = get_time();
-	*monitor->mutabilitas->dead_ph_id = -1;
-	*monitor->mutabilitas->has_eaten_enough = 0;
-	*monitor->mutabilitas->is_sitting = 0;
-	*monitor->mutabilitas->symposium_state = -1;
-
+	set_dead_ph_id(monitor, -1);
+	set_has_eaten_enough(monitor, 0);
+	set_is_sitting(monitor, 0);
+	set_symposium_state(monitor, -1);
 
 	monitor->philos = malloc(sizeof(t_philo) * monitor->veritas->nbr_philo);
 
@@ -103,7 +102,7 @@ void	init_philos(t_monitor *monitor)
 		monitor->philos[i].veritas= monitor->veritas;
 		monitor->philos[i].monitor = malloc(sizeof(t_monitor));
 		monitor->philos[i].monitor= monitor;
-		// init_fork(monitor, &monitor->philos[i]);
+		init_fork(monitor, &monitor->philos[i]);
 		i++;
 	}
 	i = 0;

@@ -3,6 +3,7 @@
 		"test_thread.C": "cpp",
 		"test_thread copy.C": "cpp",
 		"structure.h": "c",
-		"pthread.h": "c"
+		"pthread.h": "c",
+		"function.h": "c"
 	}
 }
