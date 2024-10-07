@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/02 16:25:52 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:20:49 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,13 @@ void	think(t_philo *philo)
 	speak(philo, philo->status, END_ACTION);
 }
 
-int	simulation_goes_on(t_monitor *monitor)
+void	simulation_goes_on(t_monitor *monitor)
 {
 	if (monitor->veritas->meal_target > 0
 		&& *monitor->mutabilitas->has_eaten_enough >= monitor->veritas->meal_target)
-		return (0);
+		set_symposium_state(monitor, -1);
 	else if (*monitor->mutabilitas->dead_ph_id != -1)
-		return (0);
-	return (1);
+		set_symposium_state(monitor, -1);
 }
 
 void	*routine(void *arg)
@@ -37,17 +36,16 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	while (1)
 	{
-		if (get_is_speaking(philo->monitor) == 0)
+		if (pthread_mutex_lock(&philo->monitor->mutex.is_speaking) == 0)
 		{
-			set_is_speaking(philo->monitor, 1);
 			printf("Philo num %d rentre dans sa routine \n", philo->id);
-			set_is_speaking(philo->monitor, 0);
+			pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
 			break ;
 		}
 	}
-	while (simulation_goes_on(philo->monitor))
+	pre_drink(philo);
+	while (get_symposium_state(philo->monitor) == 1)
 	{
-		pre_drink(philo);
 		eat(philo);
 		bedtime(philo);
 		think(philo);
@@ -58,58 +56,61 @@ void	*routine(void *arg)
 int	who_has_died(t_monitor *monitor)
 {
 	int	i;
-	int	current_time;
+	long long	current_time;
+	long long	last_meal_time;
 
 	i = 0;
 	while (i < monitor->veritas->nbr_philo)
 	{
 		current_time = get_time();
-		if (current_time - monitor->philos[i
-			+ 1].last_meal_time >= monitor->veritas->time_to_die)
+		last_meal_time = get_last_meal_time(&monitor->philos[i]);
+		if (current_time - last_meal_time >= monitor->veritas->time_to_die)
 		{
 			pthread_mutex_lock(&monitor->mutex.is_speaking);
-			printf("%d died\n", monitor->philos[i + 1].id);
-			return (1);
+			printf("Last meal time = %lld\n", get_last_meal_time(&monitor->philos[i]));
+			printf("current time = %lld\n", current_time);
+			printf("Delta = %lld\n", current_time - get_last_meal_time(&monitor->philos[i]));
+			printf("meals eaten = %d\n", get_meals_eaten(&monitor->philos[i]));
+			printf("%d died\n", monitor->philos[i].id);
+			pthread_mutex_unlock(&monitor->mutex.is_speaking);
+			set_symposium_state(monitor, -1);
 		}
 		i++;
 	}
 	return (0);
 }
 
-int	is_everybody_sitting(t_monitor *monitor)
+void	smbd_has_eaten_enough(t_monitor *monitor)
 {
-	{
+	if (monitor->veritas->meal_target > 0
+		&& *monitor->mutabilitas->has_eaten_enough >= monitor->veritas->meal_target)
+		set_symposium_state(monitor, -1);
+}
+
+int		is_everybody_sitting(t_monitor *monitor)
+{
 		if (get_is_sitting(monitor) == monitor->veritas->nbr_philo)
 		{
-			set_is_sitting(monitor, READY);
+			set_symposium_state(monitor, 1);
 			return (1);
 		}
-		else
-			return (0);
-	}
+		return(0);
 }
 void	*routine_monitor(void *arg)
 {
 	t_monitor	*monitor;
-	int			result;
 
 	monitor = (t_monitor *)arg;
 	while (1)
 	{
-		result = is_everybody_sitting(monitor);
-		if (result == 1)
-		{
-			printf("result = %d\n", result);
-			break ;
-		}
+		if (is_everybody_sitting(monitor) == 1)
+			break;
 	}
-	while (1)
+	while (get_symposium_state(monitor) == 1)
 	{
-		if (who_has_died(monitor))
-			break ;
-		printf("1\n");
+		who_has_died(monitor);
+		smbd_has_eaten_enough(monitor);
 	}
-	printf("3\n");
 	return (void *)(NULL);
 }
 
@@ -118,9 +119,9 @@ void	eat(t_philo *philo)
 	// pthread_mutex_lock(&philo->forks.lf);
 	// pthread_mutex_lock(philo->forks.rf);
 	{
-		philo->last_meal_time = get_time();
+		set_last_meal_time(philo, get_time());
 		philo->status = EATING;
-		philo->meals_eaten++;
+		i_finished_lunch(philo);
 		if (philo->veritas->meal_target >= 0
 			&& philo->meals_eaten >= philo->veritas->meal_target)
 		{
@@ -129,7 +130,7 @@ void	eat(t_philo *philo)
 			pthread_mutex_lock(&philo->monitor->mutex.has_eaten_enough);
 		}
 		speak(philo, philo->status, START_ACTION);
-		usleep(philo->monitor->veritas->time_to_eat * 1000);
+		usleep(philo->monitor->veritas->time_to_eat);
 		speak(philo, philo->status, END_ACTION);
 	}
 	// pthread_mutex_unlock(&philo->forks.lf);
@@ -138,10 +139,17 @@ void	eat(t_philo *philo)
 void	pre_drink(t_philo *philo)
 {
 	philo->status = APERO;
+	i_am_sitting(philo->monitor);
 	while (1)
 	{
-		if (get_symposium_state(philo->monitor) == READY)
+		if (get_symposium_state(philo->monitor) == 1)
+		{
+			pthread_mutex_lock(&philo->monitor->mutex.is_speaking);
+			printf("get_symposium_state(philo->monitor) = %d\n", get_symposium_state(philo->monitor));
+			pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
+
 			break ;
+		}
 	}
 }
 
@@ -149,7 +157,7 @@ void	bedtime(t_philo *philo)
 {
 	philo->status = SLEEPING;
 	speak(philo, philo->status, START_ACTION);
-	usleep(philo->monitor->veritas->time_to_sleep * 1000);
+	usleep(philo->monitor->veritas->time_to_sleep);
 	speak(philo, philo->status, END_ACTION);
 }
 
@@ -157,9 +165,8 @@ void	speak(t_philo *philo, int action, int statut)
 {
 	while (1)
 	{
-		if (get_is_speaking(philo->monitor) == 0)
+		if (pthread_mutex_lock(&philo->monitor->mutex.is_speaking) == 0)
 		{
-			set_is_speaking(philo->monitor, 1);
 			if (statut == START_ACTION)
 			{
 				if (action == EATING)
@@ -180,7 +187,7 @@ void	speak(t_philo *philo, int action, int statut)
 					printf("Philosophe number %d is done thinking\n",
 						philo->id);
 			}
-			set_is_speaking(philo->monitor, 0);
+		pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
 			break ;
 		}
 	}

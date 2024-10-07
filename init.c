@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/02 17:46:24 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:19:54 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 #include "function.h"
 
 
-int	get_time()
+long long	get_time()
 {
 	struct timeval current_time ;
 	gettimeofday(&current_time, NULL);
-	return (current_time.tv_usec);
+	return (((long long)current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
 }
 
 void init_monitor(t_monitor *monitor, int argc, char *argv[])
@@ -94,14 +94,18 @@ void	init_philos(t_monitor *monitor)
 
 	while(i < monitor->veritas->nbr_philo)
 	{
+
 		monitor->philos[i].id = i + 1;
 		monitor->philos[i].meals_eaten = 0;
-		monitor->philos[i].last_meal_time = 0;
+		monitor->philos[i].last_meal_time = monitor->veritas->start_time;
 		monitor->philos[i].status = 0;
 		monitor->philos[i].meals_eaten = 0;
-		monitor->philos[i].veritas = malloc(sizeof(t_veritas));
 		monitor->philos[i].veritas= monitor->veritas;
 		monitor->philos[i].monitor= monitor;
+		pthread_mutex_init(&monitor->philos[i].forks.last_meal_time, NULL);
+		pthread_mutex_init(&monitor->philos[i].forks.meals_eaten, NULL);
+
+
 		// init_fork(monitor, &monitor->philos[i]);
 		i++;
 	}

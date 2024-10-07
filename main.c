@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/02 17:37:59 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/07 11:36:34 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,8 @@ int	main(int argc, char *argv[])
 	init_monitor(&monitor, argc, argv);
 	while (1)
 	{
-		if (get_is_speaking(&monitor) == 0)
+		if (pthread_mutex_lock(&monitor.mutex.is_speaking) == 0)
 		{
-			set_is_sitting(&monitor, 1);
 			printf("\n \033[0;33m*** SIMULATION CONDITIONS ***\033[0m\n");
 			printf("  Number of philosopher = %d\n", monitor.veritas->nbr_philo);
 			printf("  Time to die = %d\n", monitor.veritas->time_to_die);
@@ -68,7 +67,7 @@ int	main(int argc, char *argv[])
 			printf("  Meal goal = %d\n\n", monitor.veritas->meal_target);
 			printf("  Start Time = %d\n\n", monitor.veritas->start_time);
 			printf("  Time to sleep = %d\n", monitor.veritas->time_to_sleep);
-			set_is_sitting(&monitor, 0);
+			pthread_mutex_unlock(&monitor.mutex.is_speaking);
 			// print_symp_info(&monitor);
 			break;
 		}

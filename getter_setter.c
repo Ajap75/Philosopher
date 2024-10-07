@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/02 17:40:16 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:40:09 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,31 @@ int	get_has_eaten_enough(t_monitor *monitor)
 	pthread_mutex_lock(&monitor->mutex.has_eaten_enough);
 	tmp = *monitor->mutabilitas->has_eaten_enough;
 	pthread_mutex_unlock(&monitor->mutex.has_eaten_enough);
+	return (tmp);
+}
+void	i_am_sitting(t_monitor *monitor)
+{
+	usleep(1000);
+	pthread_mutex_lock(&monitor->mutex.is_sitting);
+	*monitor->mutabilitas->is_sitting +=1;
+	pthread_mutex_unlock(&monitor->mutex.is_sitting);
+}
+
+void	i_finished_lunch(t_philo *philo)
+{
+	usleep(1000);
+	pthread_mutex_lock(&philo->forks.meals_eaten);
+	philo->meals_eaten +=1;
+	pthread_mutex_unlock(&philo->forks.meals_eaten);
+}
+
+int	get_meals_eaten(t_philo *philo)
+{
+	int tmp;
+	usleep(1000);
+	pthread_mutex_lock(&philo->forks.meals_eaten);
+	tmp = philo->meals_eaten;
+	pthread_mutex_unlock(&philo->forks.meals_eaten);
 	return (tmp);
 }
 
@@ -108,17 +133,24 @@ int	get_is_speaking(t_monitor *monitor)
 	pthread_mutex_unlock(&monitor->mutex.is_speaking);
 	return (tmp);
 }
-void	ask_the_mic(t_monitor *monitor)
+void	set_last_meal_time(t_philo *ph, long long current_time)
 {
-		usleep(1000);
-		pthread_mutex_lock(&monitor->mutex.is_speaking);
-		*monitor->mutabilitas->is_speaking = 1;
+	usleep(1000);
+	pthread_mutex_lock(&ph->forks.last_meal_time);
+	ph->last_meal_time = current_time;
+	pthread_mutex_unlock(&ph->forks.last_meal_time);
 }
-void	give_the_mic_back(t_monitor *monitor)
-{
-		usleep(1000);
-		*monitor->mutabilitas->is_speaking = 0;
-		pthread_mutex_unlock(&monitor->mutex.is_speaking);
 
+long long	get_last_meal_time(t_philo *ph)
+{
+	long long	tmp;
+
+	usleep(1000);
+	pthread_mutex_lock(&ph->forks.last_meal_time);
+	tmp = ph->last_meal_time;
+	pthread_mutex_unlock(&ph->forks.last_meal_time);
+	return (tmp);
 }
+
+
 
