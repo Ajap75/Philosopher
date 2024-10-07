@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/07 14:43:08 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:11:45 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_symposium_veritas
 	int			time_to_sleep;
 	int			time_to_eat;
 	int			meal_target;
-	int			start_time;
+	size_t			start_time;
 }				t_veritas;
 
 typedef struct s_symposium_mutabilitas

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/07 11:36:34 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:50:46 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	main(int argc, char *argv[])
 			printf("  Time to eat = %d\n", monitor.veritas->time_to_eat);
 			printf("  Time to sleep = %d\n", monitor.veritas->time_to_sleep);
 			printf("  Meal goal = %d\n\n", monitor.veritas->meal_target);
-			printf("  Start Time = %d\n\n", monitor.veritas->start_time);
+			printf("  Start Time = %zu\n\n", monitor.veritas->start_time);
 			printf("  Time to sleep = %d\n", monitor.veritas->time_to_sleep);
 			pthread_mutex_unlock(&monitor.mutex.is_speaking);
 			// print_symp_info(&monitor);
@@ -76,7 +76,7 @@ int	main(int argc, char *argv[])
 
 	init_philos(&monitor);
 	join_threads(&monitor);
-	// print_symp_info(&monitor);
+	print_symp_info(&monitor);
 
 	// init_fork(&monitor);
 	// destroy_philos(&monitor);
@@ -105,3 +105,8 @@ void	printf_mutex(pthread_mutex_t *pthread_mutex)
 {
 	printf("Mutex adress = %p\n", (void *)pthread_mutex);
 }
+
+
+// regler l'incrementation du nombre de philo has eaten.
+// se poser sur l'algo du passage a table des philos. 
+// commencer les fourchette
