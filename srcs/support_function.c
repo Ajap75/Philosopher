@@ -1,36 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_process.c                                     :+:      :+:    :+:   */
+/*   support_function.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/24 10:26:03 by anastruc          #+#    #+#             */
-/*   Updated: 2024/09/24 11:38:33 by anastruc         ###   ########.fr       */
+/*   Created: 2024/10/08 15:06:59 by anastruc          #+#    #+#             */
+/*   Updated: 2024/10/08 16:05:15 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <unistd.h>
-#include <sys/wait.h>
-#include <sys/types.h>
+#include "../headers/function.h"
+#include "../headers/structure.h"
 
-int main (void)
+int	ft_usleep(size_t millisecond)
 {
-	int x = 2;
-	int pid = fork();
-	if (pid == -1)
-		return (1);
-	printf("process ID = %d\n", getpid());
-	printf("Hello World from process\n");
-	if (pid == 0)
-		x++;
-	sleep(2);
-	printf("X  = %d\n", x);
-	if (pid != 0)
+	size_t	start;
+
+	start = get_time();
+	while (get_time() - start < millisecond)
 	{
-		wait(NULL);
+		usleep(500);
 	}
 	return (0);
+}
+
+size_t	get_time(void)
+{
+	struct timeval current_time;
+
+	gettimeofday(&current_time, NULL);
+	return (((long long)current_time.tv_sec * 1000) + (current_time.tv_usec
+			/ 1000));
 }

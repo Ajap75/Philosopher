@@ -6,35 +6,16 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/07 17:23:16 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:05:00 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structure.h"
-#include "function.h"
-
-
-int	ft_usleep (size_t millisecond)
-{
-	size_t	start;
-	start = get_time();
-	while (get_time() - start < millisecond)
-	{
-		usleep(500);
-	}
-	return(0);
-}
-
-size_t	get_time()
-{
-	struct timeval current_time ;
-	gettimeofday(&current_time, NULL);
-	return (((long long)current_time.tv_sec * 1000) + (current_time.tv_usec / 1000));
-}
+#include "../headers/function.h"
+#include "../headers/structure.h"
 
 
 
-void init_monitor(t_monitor *monitor, int argc, char *argv[])
+void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 {
 	monitor->veritas = malloc(sizeof(t_veritas));
 	monitor->mutabilitas = malloc(sizeof(t_mutabilitas));
@@ -48,10 +29,6 @@ void init_monitor(t_monitor *monitor, int argc, char *argv[])
 	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
 	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
 	monitor->mutabilitas->symposium_state = malloc(sizeof(int));
-
-
-
-
 	monitor->veritas->nbr_philo = ft_atoi(argv[1]);
 	monitor->veritas->time_to_die = ft_atoi(argv[2]);
 	monitor->veritas->time_to_eat = ft_atoi(argv[3]);
@@ -62,9 +39,7 @@ void init_monitor(t_monitor *monitor, int argc, char *argv[])
 	set_is_sitting(monitor, 0);
 	set_symposium_state(monitor, -1);
 	set_is_speaking(monitor, 0);
-
 	monitor->philos = malloc(sizeof(t_philo) * monitor->veritas->nbr_philo);
-
 	if (argc == 6)
 		monitor->veritas->meal_target = ft_atoi(argv[5]);
 	else
@@ -72,65 +47,52 @@ void init_monitor(t_monitor *monitor, int argc, char *argv[])
 	pthread_create(&monitor->monitor, NULL, (void *)routine_monitor, monitor);
 	return ;
 }
-
-
-
-int	init_fork(t_monitor *monitor, t_philo *philo)
+void	init_fork(t_monitor *monitor, t_philo *philo)
 {
-		if( pthread_mutex_init(&philo->forks.lf, NULL) != 0)
-		{
-			write(1, "Mutex Initialisation error\n", 28);
-			exit(EXIT_FAILURE);
-		}
-		printf("je suis le philo num : %d J'init une fourchette\n", philo->id);
-
-		if (philo->id == monitor->veritas->nbr_philo)
-		{
-			philo->forks.rf = &monitor->philos[0].forks.lf;
-			printf("je suis le philo num : %dJe passe LA une fois\n", philo->id);
-		}
-		else
-		{
-			philo->forks.rf = &monitor->philos[philo->id + 1].forks.lf;
-			printf("je suis le philo num : %d Je passe ICI une fois\n", philo->id);
-		}
-
-	return(0);
+	init_left_fork(philo);
+	init_right_fork(monitor, philo);
 }
 
+void	init_left_fork(t_philo *philo)
+{
+	pthread_mutex_init(&philo->forks.lf, NULL);
+}
+void	init_right_fork(t_monitor *monitor, t_philo *philo)
+{
+	if (philo->id == monitor->veritas->nbr_philo)
+		philo->forks.rf = &monitor->philos[0].forks.lf;
+	else
+		philo->forks.rf = &monitor->philos[philo->id].forks.lf;
+	// keep in mind that the philosophers are stored in an array -> Ph[0].id = 1
+}
 
 void	init_philos(t_monitor *monitor)
 {
-	int i;
+	int	i;
 
 	i = 0;
-
-	while(i < monitor->veritas->nbr_philo)
+	while (i < monitor->veritas->nbr_philo)
 	{
-
 		monitor->philos[i].id = i + 1;
 		monitor->philos[i].meals_eaten = 0;
 		monitor->philos[i].last_meal_time = monitor->veritas->start_time;
 		monitor->philos[i].status = 0;
 		monitor->philos[i].meals_eaten = 0;
-		monitor->philos[i].veritas= monitor->veritas;
-		monitor->philos[i].monitor= monitor;
+		monitor->philos[i].veritas = monitor->veritas;
+		monitor->philos[i].monitor = monitor;
 		pthread_mutex_init(&monitor->philos[i].forks.last_meal_time, NULL);
 		pthread_mutex_init(&monitor->philos[i].forks.meals_eaten, NULL);
-
-
-		// init_fork(monitor, &monitor->philos[i]);
+		init_fork(monitor, &monitor->philos[i]);
 		i++;
 	}
 	i = 0;
-
-	while(i < monitor->veritas->nbr_philo)
+	while (i < monitor->veritas->nbr_philo)
 	{
 		ft_usleep(500);
-		if (pthread_create(&monitor->philos[i].ph, NULL, (void *)routine, &monitor->philos[i]) == 0)
+		if (pthread_create(&monitor->philos[i].ph, NULL, (void *)routine,
+				&monitor->philos[i]) == 0)
 			i++;
 		else
 			exit(EXIT_FAILURE);
 	}
 }
-

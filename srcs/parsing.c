@@ -6,12 +6,13 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:42:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/01 12:27:24 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:04:45 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structure.h"
-#include "function.h"
+#include "../headers/function.h"
+#include "../headers/structure.h"
+
 
 int	ft_isdigit(int c)
 {

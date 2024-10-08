@@ -6,12 +6,12 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 12:17:51 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:06:45 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "structure.h"
-#include "function.h"
+#include "../headers/function.h"
+#include "../headers/structure.h"
 
 // void	destroy_philos(t_monitor *monitor)
 // {
@@ -72,29 +72,11 @@ int	main(int argc, char *argv[])
 			break;
 		}
 	}
-
-
 	init_philos(&monitor);
 	join_threads(&monitor);
 	print_symp_info(&monitor);
+	print_forks(&monitor);
 
-	// init_fork(&monitor);
-	// destroy_philos(&monitor);
-	// int nbr_philo;z		monitor->philos[i].forks.rf.rf = &monitor->philos[i + 1].forks.lf.lf;
-
-	// nbr_philo = atoi(argv[1]);
-	// if (argc >= 2)
-	// {
-	// 	init_ph(nbr_philo);
-
-
-
-	// printf("\n \033[0;33m*** FORK STATE ***\033[0m\n");
-	// while (i < monitor.veritas->nbr_philo)
-	// {
-	// 	printf(" Philo name :%d, left fork = %d and right fork = %d\n", monitor.philos[i].id, monitor.philos[i].forks.lf.id, *monitor.philos[i].forks.rf.id);
-	// 	i++;
-	// }
 	write(1, "PARSING OK\n", 12);
 	clean(&monitor);
 	return(0);
@@ -103,7 +85,22 @@ void	printf_mutex(pthread_mutex_t *pthread_mutex)
 {
 	printf("Mutex adress = %p\n", (void *)pthread_mutex);
 }
+void	print_forks(t_monitor *monitor)
+{
+	int i;
+	i = 0;
 
+	while(i < monitor->veritas->nbr_philo)
+	{
+		printf("\n");
+		printf("la fourchette de gauche de %d est : ", monitor->philos[i].id);
+		printf_mutex(&monitor->philos[i].forks.lf);
+		printf("la fourchette de droite de %d est : ", monitor->philos[i].id);
+		printf_mutex(monitor->philos[i].forks.rf);
+		printf("\n");
+		i++;
+	}
+}
 
 // se poser sur l'algo du passage a table des philos.
 // commencer les fourchette

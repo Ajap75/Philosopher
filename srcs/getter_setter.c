@@ -6,12 +6,12 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 12:44:59 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:04:56 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "function.h"
-#include "structure.h"
+#include "../headers/function.h"
+#include "../headers/structure.h"
 
 void	set_dead_ph_id(t_monitor *monitor, int id)
 {

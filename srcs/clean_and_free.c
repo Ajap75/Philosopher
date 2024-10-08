@@ -6,12 +6,12 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:35:04 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 12:57:25 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:04:51 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "function.h"
-#include "structure.h"
+#include "../headers/function.h"
+#include "../headers/structure.h"
 
 void	clean(t_monitor *monitor)
 {
