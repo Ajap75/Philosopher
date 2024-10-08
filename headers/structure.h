@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 12:34:38 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:02:38 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ typedef struct s_philo
 	int			status;
 	t_veritas	*veritas; //pointeur vers les datas immutables de la simulation
 	int			meals_eaten;
-	long long			last_meal_time;
+	size_t			last_meal_time;
 	t_ph_mutex	forks;
 	t_monitor	*monitor;
 }				t_philo;

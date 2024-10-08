@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 16:05:00 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:54:36 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	monitor->veritas->time_to_die = ft_atoi(argv[2]);
 	monitor->veritas->time_to_eat = ft_atoi(argv[3]);
 	monitor->veritas->time_to_sleep = ft_atoi(argv[4]);
-	monitor->veritas->start_time = get_time();
+	monitor->veritas->start_time = 0;
 	set_dead_ph_id(monitor, -1);
 	set_has_eaten_enough(monitor, 0);
 	set_is_sitting(monitor, 0);
@@ -51,6 +51,7 @@ void	init_fork(t_monitor *monitor, t_philo *philo)
 {
 	init_left_fork(philo);
 	init_right_fork(monitor, philo);
+
 }
 
 void	init_left_fork(t_philo *philo)

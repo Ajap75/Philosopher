@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 16:05:09 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 18:04:42 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,18 @@ void	*routine_monitor(void *arg)
 		if (is_everybody_sitting(monitor) == 1)
 			break;
 	}
-	while (get_symposium_state(monitor) == 1)
+	while (1)
 	{
-		if (monitor->veritas->meal_target != -1)
+		if (get_symposium_state(monitor) == 1)
 		{
-			who_has_eaten_enough(monitor);
+			if (monitor->veritas->meal_target != -1)
+			{
+				who_has_eaten_enough(monitor);
+			}
+			who_has_died(monitor);
 		}
-		who_has_died(monitor);
+		else
+			return (void *)(NULL);
 	}
 	return (void *)(NULL);
 }
@@ -59,7 +64,7 @@ int	who_has_died(t_monitor *monitor)
 			printf("Time to die = %d\n", monitor->veritas->time_to_die);
 			printf("Last meal time = %lld\n", get_last_meal_time(&monitor->philos[i]));
 			printf("current time = %lld\n", current_time);
-			printf("Delta = %lld\n", current_time - get_last_meal_time(&monitor->philos[i]));
+			printf("Delta = %lld\n", current_time - last_meal_time);
 			printf("meals eaten = %d\n", get_meals_eaten(&monitor->philos[i]));
 			printf("%d died\n", monitor->philos[i].id);
 			pthread_mutex_unlock(&monitor->mutex.is_speaking);
@@ -102,9 +107,17 @@ void	who_has_eaten_enough(t_monitor *monitor)
 
 int	is_everybody_sitting(t_monitor *monitor)
 {
+	int i;
+	i = 0;
 	if (get_is_sitting(monitor) == monitor->veritas->nbr_philo)
 	{
+		
 		monitor->veritas->start_time = get_time();
+		while (i < monitor->veritas->nbr_philo)
+		{
+			monitor->philos[i].last_meal_time = monitor->veritas->start_time;
+			i++;
+		}
 		set_symposium_state(monitor, 1);
 		return (1);
 	}

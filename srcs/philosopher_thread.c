@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 16:09:29 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:59:00 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,23 @@ void	*routine(void *arg)
 		}
 	}
 	pre_drink(philo);
-	while (get_symposium_state(philo->monitor) == 1)
+	// if (philo->id % 2 == 0)
+	// 	ft_usleep(10);
+	if (get_symposium_state(philo->monitor) == 1)
 	{
-		eat(philo);
-		bedtime(philo);
-		think(philo);
-		if (pthread_mutex_lock(&philo->monitor->mutex.is_speaking) == 0)
+		while (1)
 		{
-			printf("Philo num %d fin de routine\n", philo->id);
-			pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
+			if (get_symposium_state(philo->monitor) != 1)
+					return (void *)(NULL);
+			eat(philo);
+			bedtime(philo);
+			think(philo);
 		}
-		break ;
 	}
 	return (void *)(NULL);
 }
 
-void	eat(t_philo *philo)
+void	even_philo_eat(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->forks.lf);
 	pthread_mutex_lock(philo->forks.rf);
@@ -62,6 +63,35 @@ void	eat(t_philo *philo)
 	}
 	pthread_mutex_unlock(&philo->forks.lf);
 	pthread_mutex_unlock(philo->forks.rf);
+}
+
+void	odd_philo_eat(t_philo *philo)
+{
+	pthread_mutex_lock(philo->forks.rf);
+	pthread_mutex_lock(&philo->forks.lf);
+	{
+		set_last_meal_time(philo, get_time());
+		philo->status = EATING;
+		i_finished_lunch(philo);
+		speak(philo, philo->status);
+		ft_usleep(philo->monitor->veritas->time_to_eat);
+	}
+	pthread_mutex_unlock(philo->forks.rf);
+	pthread_mutex_unlock(&philo->forks.lf);
+}
+
+void	eat(t_philo *philo)
+{
+	if (philo->id % 2 == 0)
+		even_philo_eat(philo);
+	else
+		odd_philo_eat(philo);
+
+// Depending on whether a philosopher has an odd or even ID, they attempt to pick up either their left fork or their right fork first.
+// This ensures that philosophers do not all try to lock the same mutex at the same time, reducing the risk of a deadlock.
+// Some philosophers will successfully pick up their first fork, while others will have to wait until it becomes available.
+// Once a philosopher has successfully picked up their first fork, they can then proceed to take the second fork, while the others are still waiting to acquire their first.
+// This staggered approach helps balance the contention for forks and allows some philosophers to eat while others wait, avoiding deadlock and unnecessary contention.
 }
 void	pre_drink(t_philo *philo)
 {

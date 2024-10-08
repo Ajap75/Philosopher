@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 16:10:19 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 17:01:58 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int			who_has_died(t_monitor *monitor);
 void		*routine(void *arg);
 void		pre_drink(t_philo *philo);
 void		eat(t_philo *philo);
+void		even_philo_eat(t_philo *philo);
+void		odd_philo_eat(t_philo *philo);
 void		bedtime(t_philo *philo);
 void		speak(t_philo *philo, int philo_statut);
 
