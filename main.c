@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/07 18:50:46 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:17:51 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,8 +95,6 @@ int	main(int argc, char *argv[])
 	// 	printf(" Philo name :%d, left fork = %d and right fork = %d\n", monitor.philos[i].id, monitor.philos[i].forks.lf.id, *monitor.philos[i].forks.rf.id);
 	// 	i++;
 	// }
-
-
 	write(1, "PARSING OK\n", 12);
 	clean(&monitor);
 	return(0);
@@ -107,6 +105,5 @@ void	printf_mutex(pthread_mutex_t *pthread_mutex)
 }
 
 
-// regler l'incrementation du nombre de philo has eaten.
-// se poser sur l'algo du passage a table des philos. 
+// se poser sur l'algo du passage a table des philos.
 // commencer les fourchette

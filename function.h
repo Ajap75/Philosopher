@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/07 18:17:36 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:29:13 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,13 @@ int		ft_isdigit(int c);
 int		is_arg_digit(int argc, char **argv);
 int		ft_atoi(const char *nptr);
 int		parsing(int argc, char **argv, t_monitor *monitor);
+
+// Clean and free : Destroy mutex and free memory allocated
+
+void	free_everything(t_monitor *monitor);
+void	destroy_mutex(t_monitor *monitor);
+void	clean(t_monitor *monitor);
+
 
 // Support
 size_t	get_time(void);
@@ -79,6 +86,10 @@ long long	get_last_meal_time(t_philo *ph);
 void	i_finished_lunch(t_philo *philo);
 int	get_meals_eaten(t_philo *philo);
 void	a_philo_has_eaten_enough(t_monitor *monitor);
+void	update_fed_philos_count(t_monitor *monitor, int i);
+int	get_fed_philos_count(t_monitor *monitor);
+
+
 
 
 

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/07 16:11:45 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:34:38 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,6 @@ typedef struct s_symposium_mutabilitas
 
 typedef struct s_m_mutex
 {
-	pthread_mutex_t print;
 	pthread_mutex_t dead_ph;
 	pthread_mutex_t has_eaten_enough;
 	pthread_mutex_t is_sitting;

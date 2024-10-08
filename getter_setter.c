@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/07 18:17:41 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/08 12:44:59 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,15 @@ void	set_has_eaten_enough(t_monitor *monitor, int has_eaten_enough)
 }
 
 
-void	a_philo_has_eaten_enough(t_monitor *monitor)
+void	update_fed_philos_count(t_monitor *monitor, int i)
 {
 	ft_usleep(100);
 	pthread_mutex_lock(&monitor->mutex.has_eaten_enough);
-	*monitor->mutabilitas->has_eaten_enough += 1;
+	*monitor->mutabilitas->has_eaten_enough = i;
 	pthread_mutex_unlock(&monitor->mutex.has_eaten_enough);
 }
 
-int	get_has_eaten_enough(t_monitor *monitor)
+int	get_fed_philos_count(t_monitor *monitor)
 {
 	int	tmp;
 
@@ -69,7 +69,6 @@ void	i_am_sitting(t_monitor *monitor)
 
 void	i_finished_lunch(t_philo *philo)
 {
-	ft_usleep(100);
 	pthread_mutex_lock(&philo->forks.meals_eaten);
 	philo->meals_eaten +=1;
 	pthread_mutex_unlock(&philo->forks.meals_eaten);
@@ -144,7 +143,6 @@ int	get_is_speaking(t_monitor *monitor)
 }
 void	set_last_meal_time(t_philo *ph, long long current_time)
 {
-	ft_usleep(10);
 	pthread_mutex_lock(&ph->forks.last_meal_time);
 	ph->last_meal_time = current_time;
 	pthread_mutex_unlock(&ph->forks.last_meal_time);
