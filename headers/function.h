@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 17:58:54 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:34:53 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ void		odd_philo_eat(t_philo *philo);
 void		bedtime(t_philo *philo);
 void		speak(t_philo *philo, int philo_statut);
 int			am_i_alive(t_philo *philo);
+int			get_life_statut(t_philo *philo);
 
 // getter and setter
 void		set_dead_ph_id(t_monitor *monitor, int id);

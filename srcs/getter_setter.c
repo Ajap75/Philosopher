@@ -6,12 +6,15 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 18:16:16 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:36:12 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/function.h"
 #include "../headers/structure.h"
+
+// getter and setter are usefull especially when you want to check a value in an if condition
+
 
 void	set_dead_ph_id(t_monitor *monitor, int id)
 {
@@ -164,5 +167,15 @@ void	take_left_fork_first (t_philo *philo)
 	speak(philo, HAS_TAKEN_A_FORK);
 	pthread_mutex_lock(philo->mutex.rf);
 	speak(philo, HAS_TAKEN_A_FORK);
+}
+
+int	get_life_statut(t_philo *philo)
+{
+	int rtn;
+
+	pthread_mutex_lock(&philo->mutex.life);
+	rtn = philo->life;
+	pthread_mutex_unlock(&philo->mutex.life);
+	return(rtn);
 }
 

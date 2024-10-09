@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 17:23:37 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:51:27 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,18 @@ int	who_has_died(t_monitor *monitor)
 	int	i;
 	long long	current_time;
 	long long	last_meal_time;
+	// long long 	delta;
 
 	i = 0;
+	current_time = get_time();
 	while (i < monitor->veritas->nbr_philo)
 	{
-		current_time = get_time();
 		last_meal_time = get_last_meal_time(&monitor->philos[i]);
 		if (current_time - last_meal_time >= monitor->veritas->time_to_die)
 		{
+			pthread_mutex_lock(&monitor->philos[i].mutex.life);
+			monitor->philos[i].life = DEAD;
+			pthread_mutex_unlock(&monitor->philos[i].mutex.life);
 			pthread_mutex_lock(&monitor->mutex.is_speaking);
 			printf("Time to die = %d\n", monitor->veritas->time_to_die);
 			printf("Last meal time = %lld\n", get_last_meal_time(&monitor->philos[i]));
@@ -62,6 +66,7 @@ int	who_has_died(t_monitor *monitor)
 			printf("%d died\n", monitor->philos[i].id);
 			pthread_mutex_unlock(&monitor->mutex.is_speaking);
 			set_symposium_state(monitor, -1);
+			return (0);
 		}
 		i++;
 	}

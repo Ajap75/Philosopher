@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 18:05:26 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:49:25 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,12 @@ void	*routine(void *arg)
 		while (1)
 		{
 			// printf("Philo  %d STATUT = %d  \n", philo->id, philo->status);
-			if (get_symposium_state(philo->monitor) == 1 && philo->life == ALIVE)
-			{
-				// am_i_alive(philo);
+			if (get_symposium_state(philo->monitor) == 1 && get_life_statut(philo) == ALIVE)
 				eat(philo);
+			if (get_symposium_state(philo->monitor) == 1 && get_life_statut(philo) == ALIVE)
 				bedtime(philo);
+			if (get_symposium_state(philo->monitor) == 1 && get_life_statut(philo) == ALIVE)
 				think(philo);
-			}
 			else
 				return (void *)(NULL);
 		}
@@ -53,17 +52,17 @@ void	*routine(void *arg)
 	return (void *)(NULL);
 }
 
-// int am_i_alive(t_philo *philo)
-// {
-// 	int rtn;
-// 	pthread_mutex_lock(&philo->mutex.life);
-// 	if (philo->life == ALIVE)
-// 		rtn = 1;
-// 	else
-// 		rtn = 0;
-// 	pthread_mutex_unlock(&philo->mutex.life);
-// 	return(rtn);
-// }
+int am_i_alive(t_philo *philo)
+{
+	int rtn;
+	pthread_mutex_lock(&philo->mutex.life);
+	if (philo->life == ALIVE)
+		rtn = 1;
+	else
+		rtn = 0;
+	pthread_mutex_unlock(&philo->mutex.life);
+	return(rtn);
+}
 
 // void	i_tell_monitor_i_am_dead (t_philo)
 // {
@@ -104,10 +103,13 @@ void	odd_philo_eat(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
+
 	if (philo->id % 2 == 0)
 		even_philo_eat(philo);
 	else
 		odd_philo_eat(philo);
+
+	return ;
 
 // Depending on whether a philosopher has an odd or even ID, they attempt to pick up either their left fork or their right fork first.
 // This ensures that philosophers do not all try to lock the same mutex at the same time, reducing the risk of a deadlock.
@@ -120,6 +122,7 @@ void	pre_drink(t_philo *philo)
 	pthread_mutex_lock(&philo->mutex.life);
 	philo->life = ALIVE;
 	pthread_mutex_unlock(&philo->mutex.life);
+
 	i_am_sitting(philo->monitor);
 	while (1)
 	{

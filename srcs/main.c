@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 18:14:44 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:37:48 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	print_forks(t_monitor *monitor)
 }
 
 
-
+// utile de creer une data time of death;
 // Faire en sorte qu'un philosopher ne plus plus manger s'il est mort. Rester surt l'idee de chaue philosopher se marque comme mort quand il meurt et verifie s'il est mort avant de manger.
 // En parallele il met a jour le tableau de mort avec son ID.
 // Le monitor verifie en permanence si une ID est inscrite sur ce tableau (- de 10ms) si le tblea est remplie le monitor met l'etat du symposium a -1.
