@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 16:06:45 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:14:44 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char *argv[])
 	clean(&monitor);
 	return(0);
 }
-void	printf_mutex(pthread_mutex_t *pthread_mutex)
+void	printf_forks(pthread_mutex_t *pthread_mutex)
 {
 	printf("Mutex adress = %p\n", (void *)pthread_mutex);
 }
@@ -94,13 +94,19 @@ void	print_forks(t_monitor *monitor)
 	{
 		printf("\n");
 		printf("la fourchette de gauche de %d est : ", monitor->philos[i].id);
-		printf_mutex(&monitor->philos[i].forks.lf);
+		printf_forks(&monitor->philos[i].mutex.lf);
 		printf("la fourchette de droite de %d est : ", monitor->philos[i].id);
-		printf_mutex(monitor->philos[i].forks.rf);
+		printf_forks(monitor->philos[i].mutex.rf);
 		printf("\n");
 		i++;
 	}
 }
 
+
+
+// Faire en sorte qu'un philosopher ne plus plus manger s'il est mort. Rester surt l'idee de chaue philosopher se marque comme mort quand il meurt et verifie s'il est mort avant de manger.
+// En parallele il met a jour le tableau de mort avec son ID.
+// Le monitor verifie en permanence si une ID est inscrite sur ce tableau (- de 10ms) si le tblea est remplie le monitor met l'etat du symposium a -1.
+// Je pense qu'en plus de bloquer le dejeuner, il faut faire en sorte que des qu'un philo
 // se poser sur l'algo du passage a table des philos.
 // commencer les fourchette

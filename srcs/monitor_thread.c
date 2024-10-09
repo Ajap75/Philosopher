@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 15:24:49 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:23:37 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ void	who_has_eaten_enough(t_monitor *monitor)
 			pthread_mutex_unlock(&monitor->mutex.is_speaking);
 			set_symposium_state(monitor, -1);
 			return ;
-			// free and exit
 		}
 	while (i < monitor->veritas->nbr_philo)
 	{
@@ -106,6 +105,10 @@ int	is_everybody_sitting(t_monitor *monitor)
 	{
 
 		monitor->veritas->start_time = get_time();
+		pthread_mutex_lock(&monitor->mutex.is_speaking);
+		printf("\033[0;36mSTART TIME = %zu\033[0m\n", monitor->veritas->start_time);
+		pthread_mutex_unlock(&monitor->mutex.is_speaking);
+
 		while (i < monitor->veritas->nbr_philo)
 		{
 			monitor->philos[i].last_meal_time = monitor->veritas->start_time;
@@ -116,3 +119,5 @@ int	is_everybody_sitting(t_monitor *monitor)
 	}
 	return (0);
 }
+
+// \033[0;33m*** SIMULATION CONDITIONS ***\033[0m

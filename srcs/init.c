@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 15:27:14 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:48:03 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,14 +57,14 @@ void	init_fork(t_monitor *monitor, t_philo *philo)
 
 void	init_left_fork(t_philo *philo)
 {
-	pthread_mutex_init(&philo->forks.lf, NULL);
+	pthread_mutex_init(&philo->mutex.lf, NULL);
 }
 void	init_right_fork(t_monitor *monitor, t_philo *philo)
 {
 	if (philo->id == monitor->veritas->nbr_philo)
-		philo->forks.rf = &monitor->philos[0].forks.lf;
+		philo->mutex.rf = &monitor->philos[0].mutex.lf;
 	else
-		philo->forks.rf = &monitor->philos[philo->id].forks.lf;
+		philo->mutex.rf = &monitor->philos[philo->id].mutex.lf;
 	// keep in mind that the philosophers are stored in an array -> Ph[0].id = 1
 }
 
@@ -76,14 +76,15 @@ void	init_philos(t_monitor *monitor)
 	while (i < monitor->veritas->nbr_philo)
 	{
 		monitor->philos[i].id = i + 1;
+		monitor->philos[i].life = ALIVE;
 		monitor->philos[i].meals_eaten = 0;
 		monitor->philos[i].last_meal_time = monitor->veritas->start_time;
 		monitor->philos[i].status = 0;
 		monitor->philos[i].meals_eaten = 0;
 		monitor->philos[i].veritas = monitor->veritas;
 		monitor->philos[i].monitor = monitor;
-		pthread_mutex_init(&monitor->philos[i].forks.last_meal_time, NULL);
-		pthread_mutex_init(&monitor->philos[i].forks.meals_eaten, NULL);
+		pthread_mutex_init(&monitor->philos[i].mutex.last_meal_time, NULL);
+		pthread_mutex_init(&monitor->philos[i].mutex.meals_eaten, NULL);
 		init_fork(monitor, &monitor->philos[i]);
 		i++;
 	}

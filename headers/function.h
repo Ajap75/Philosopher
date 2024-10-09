@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 15:50:10 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 17:58:54 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # define READY 6
 # define STOP 7
 # define APERO 8
+# define ALIVE 10
+# define DEAD 11
 
 # include "structure.h"
 # include <pthread.h>
@@ -71,6 +73,7 @@ void		even_philo_eat(t_philo *philo);
 void		odd_philo_eat(t_philo *philo);
 void		bedtime(t_philo *philo);
 void		speak(t_philo *philo, int philo_statut);
+int			am_i_alive(t_philo *philo);
 
 // getter and setter
 void		set_dead_ph_id(t_monitor *monitor, int id);
@@ -91,9 +94,7 @@ int			get_meals_eaten(t_philo *philo);
 void		a_philo_has_eaten_enough(t_monitor *monitor);
 void		update_fed_philos_count(t_monitor *monitor, int i);
 int			get_fed_philos_count(t_monitor *monitor);
-void	take_right_forks_first (t_philo *philo);
-void	take_left_forks_first (t_philo *philo);
-
-
+void		take_right_fork_first(t_philo *philo);
+void		take_left_fork_first(t_philo *philo);
 
 #endif

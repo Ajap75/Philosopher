@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:35:04 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 16:04:51 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:04:34 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@ void	destroy_mutex(t_monitor *monitor)
 	{
 		while (i < monitor->veritas->nbr_philo)
 		{
-			// pthread_mutex_destroy(&monitor->philos[i].forks.lf);
-			pthread_mutex_destroy(&monitor->philos[i].forks.meals_eaten);
-			pthread_mutex_destroy(&monitor->philos[i].forks.last_meal_time);
+			pthread_mutex_destroy(&monitor->philos[i].mutex.lf);
+			pthread_mutex_destroy(&monitor->philos[i].mutex.life);
+			pthread_mutex_destroy(&monitor->philos[i].mutex.meals_eaten);
+			pthread_mutex_destroy(&monitor->philos[i].mutex.last_meal_time);
 			i++;
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 15:49:44 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 18:16:16 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,18 +64,18 @@ void	i_am_sitting(t_monitor *monitor)
 
 void	i_finished_lunch(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->forks.meals_eaten);
+	pthread_mutex_lock(&philo->mutex.meals_eaten);
 	philo->meals_eaten +=1;
-	pthread_mutex_unlock(&philo->forks.meals_eaten);
+	pthread_mutex_unlock(&philo->mutex.meals_eaten);
 }
 
 int	get_meals_eaten(t_philo *philo)
 {
 	int tmp;
 	ft_usleep(10);
-	pthread_mutex_lock(&philo->forks.meals_eaten);
+	pthread_mutex_lock(&philo->mutex.meals_eaten);
 	tmp = philo->meals_eaten;
-	pthread_mutex_unlock(&philo->forks.meals_eaten);
+	pthread_mutex_unlock(&philo->mutex.meals_eaten);
 	return (tmp);
 }
 
@@ -134,35 +134,35 @@ int	get_is_speaking(t_monitor *monitor)
 }
 void	set_last_meal_time(t_philo *ph, long long current_time)
 {
-	pthread_mutex_lock(&ph->forks.last_meal_time);
+	pthread_mutex_lock(&ph->mutex.last_meal_time);
 	ph->last_meal_time = current_time;
-	pthread_mutex_unlock(&ph->forks.last_meal_time);
+	pthread_mutex_unlock(&ph->mutex.last_meal_time);
 }
 
 long long	get_last_meal_time(t_philo *ph)
 {
 	long long	tmp;
 
-	pthread_mutex_lock(&ph->forks.last_meal_time);
+	pthread_mutex_lock(&ph->mutex.last_meal_time);
 	tmp = ph->last_meal_time;
-	pthread_mutex_unlock(&ph->forks.last_meal_time);
+	pthread_mutex_unlock(&ph->mutex.last_meal_time);
 	return (tmp);
 }
 
 
-void	take_right_forks_first (t_philo *philo)
+void	take_right_fork_first (t_philo *philo)
 {
-	pthread_mutex_lock(philo->forks.rf);
+	pthread_mutex_lock(philo->mutex.rf);
 	speak(philo, HAS_TAKEN_A_FORK);
-	pthread_mutex_lock(&philo->forks.lf);
+	pthread_mutex_lock(&philo->mutex.lf);
 	speak(philo, HAS_TAKEN_A_FORK);
 }
 
-void	take_left_forks_first (t_philo *philo)
+void	take_left_fork_first (t_philo *philo)
 {
-	pthread_mutex_lock(&philo->forks.lf);
+	pthread_mutex_lock(&philo->mutex.lf);
 	speak(philo, HAS_TAKEN_A_FORK);
-	pthread_mutex_lock(philo->forks.rf);
+	pthread_mutex_lock(philo->mutex.rf);
 	speak(philo, HAS_TAKEN_A_FORK);
 }
 
