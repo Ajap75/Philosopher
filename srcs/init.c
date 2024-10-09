@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 17:54:36 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:27:14 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,8 @@ void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 void	init_fork(t_monitor *monitor, t_philo *philo)
 {
 	init_left_fork(philo);
-	init_right_fork(monitor, philo);
+	if (monitor->veritas->nbr_philo > 1)
+		init_right_fork(monitor, philo);
 
 }
 

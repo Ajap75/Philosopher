@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 17:01:58 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:50:10 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define FUNCTION_H
 # define EATING 1
 # define SLEEPING 2
+# define HAS_TAKEN_A_FORK 9
 # define START_ACTION 3
 # define END_ACTION 4
 # define THINKING 5
@@ -90,5 +91,9 @@ int			get_meals_eaten(t_philo *philo);
 void		a_philo_has_eaten_enough(t_monitor *monitor);
 void		update_fed_philos_count(t_monitor *monitor, int i);
 int			get_fed_philos_count(t_monitor *monitor);
+void	take_right_forks_first (t_philo *philo);
+void	take_left_forks_first (t_philo *philo);
+
+
 
 #endif

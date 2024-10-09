@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 17:42:24 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:49:44 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,4 +150,19 @@ long long	get_last_meal_time(t_philo *ph)
 }
 
 
+void	take_right_forks_first (t_philo *philo)
+{
+	pthread_mutex_lock(philo->forks.rf);
+	speak(philo, HAS_TAKEN_A_FORK);
+	pthread_mutex_lock(&philo->forks.lf);
+	speak(philo, HAS_TAKEN_A_FORK);
+}
+
+void	take_left_forks_first (t_philo *philo)
+{
+	pthread_mutex_lock(&philo->forks.lf);
+	speak(philo, HAS_TAKEN_A_FORK);
+	pthread_mutex_lock(philo->forks.rf);
+	speak(philo, HAS_TAKEN_A_FORK);
+}
 

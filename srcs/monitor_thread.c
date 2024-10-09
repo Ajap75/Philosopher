@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 18:04:42 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:24:49 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,14 +38,7 @@ void	*routine_monitor(void *arg)
 	}
 	return (void *)(NULL);
 }
-void	simulation_goes_on(t_monitor *monitor)
-{
-	if (monitor->veritas->meal_target > 0
-		&& *monitor->mutabilitas->has_eaten_enough >= monitor->veritas->meal_target)
-		set_symposium_state(monitor, -1);
-	else if (*monitor->mutabilitas->dead_ph_id != -1)
-		set_symposium_state(monitor, -1);
-}
+
 
 int	who_has_died(t_monitor *monitor)
 {
@@ -111,7 +104,7 @@ int	is_everybody_sitting(t_monitor *monitor)
 	i = 0;
 	if (get_is_sitting(monitor) == monitor->veritas->nbr_philo)
 	{
-		
+
 		monitor->veritas->start_time = get_time();
 		while (i < monitor->veritas->nbr_philo)
 		{

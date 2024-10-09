@@ -6,14 +6,14 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/08 15:22:31 by anastruc          #+#    #+#              #
-#    Updated: 2024/10/08 16:14:09 by anastruc         ###   ########.fr        #
+#    Updated: 2024/10/09 15:45:23 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = philosopher
 COMPIL = cc
-FLAGS = -Wall -Werror -Wextra
+FLAGS = -Wall -Werror -Wextra -pthread -g3 -fPIC
 # -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined -fsanitize=integer -fsanitize=null -fsanitize=unreachable
 #ATTENTION FLAG A UTILISER SEPAREMENT DE VALGRIND
 PINK = \033[1;35m
@@ -60,7 +60,7 @@ data_race:
 	@valgrind --tool=helgrind ./$(NAME) $(ARGS)
 
 leak :
-	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME)
+	@valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --track-fds=yes ./$(NAME) $(ARGS)
 
 re : fclean all
 

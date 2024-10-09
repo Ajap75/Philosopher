@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/08 17:59:00 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/09 15:50:30 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,7 @@ void	*routine(void *arg)
 
 void	even_philo_eat(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->forks.lf);
-	pthread_mutex_lock(philo->forks.rf);
+	take_left_forks_first(philo);
 	{
 		set_last_meal_time(philo, get_time());
 		philo->status = EATING;
@@ -67,17 +66,19 @@ void	even_philo_eat(t_philo *philo)
 
 void	odd_philo_eat(t_philo *philo)
 {
-	pthread_mutex_lock(philo->forks.rf);
-	pthread_mutex_lock(&philo->forks.lf);
+	if (philo->veritas->nbr_philo > 1)
 	{
-		set_last_meal_time(philo, get_time());
-		philo->status = EATING;
-		i_finished_lunch(philo);
-		speak(philo, philo->status);
-		ft_usleep(philo->monitor->veritas->time_to_eat);
+		take_right_forks_first(philo);
+		{
+			set_last_meal_time(philo, get_time());
+			philo->status = EATING;
+			i_finished_lunch(philo);
+			speak(philo, philo->status);
+			ft_usleep(philo->monitor->veritas->time_to_eat);
+		}
+		pthread_mutex_unlock(philo->forks.rf);
+		pthread_mutex_unlock(&philo->forks.lf);
 	}
-	pthread_mutex_unlock(philo->forks.rf);
-	pthread_mutex_unlock(&philo->forks.lf);
 }
 
 void	eat(t_philo *philo)
@@ -131,6 +132,9 @@ void	speak(t_philo *philo, int action)
 					philo->id);
 			else if (action == THINKING)
 				printf("%zu %d \033[0;34mis thinking\033[0m\n", get_time(),
+					philo->id);
+			else if (action == HAS_TAKEN_A_FORK)
+				printf("%zu %d \033[0;35mhas taken a fork\033[0m\n", get_time(),
 					philo->id);
 			pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
 			break ;
