@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 12:10:43 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:33:10 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ int	main(int argc, char *argv[])
 	i = 0;
 	if ((parsing(argc, argv)))
 		return(1);
-	write(1, "PARSING OK\n", 12);
 
 	init_monitor(&monitor, argc, argv);
 	while (1)

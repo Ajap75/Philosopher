@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:42:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 14:41:21 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 15:32:48 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,8 @@ int is_arg_digit(int argc, char **argv)
 		{
 			if (argv[i][j] == '-' || argv[i][j] == '+')
 				j++;
-			printf("C =%c\n", argv[i][j]);
 			if (ft_isdigit(argv[i][j]) == 0)
 			{
-				printf("C =%c\n", argv[i][j]);
 				print_error_message(1);
 				return(1);
 			}
@@ -116,7 +114,7 @@ int	check_range_of_philosopher(long nbr_philo)
 int	parsing(int argc, char **argv)
 {
 	int i;
-
+	printf("argc = %d\n", argc);
 	i = 1;
 	if (argc >= 5 && argc <= 6)
 	{
