@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 18:37:48 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 12:10:43 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,9 +51,10 @@ int	main(int argc, char *argv[])
 	int i;
 
 	i = 0;
-
-	if ((parsing(argc, argv, &monitor)))
+	if ((parsing(argc, argv)))
 		return(1);
+	write(1, "PARSING OK\n", 12);
+
 	init_monitor(&monitor, argc, argv);
 	while (1)
 	{
@@ -76,8 +77,6 @@ int	main(int argc, char *argv[])
 	join_threads(&monitor);
 	print_symp_info(&monitor);
 	print_forks(&monitor);
-
-	write(1, "PARSING OK\n", 12);
 	clean(&monitor);
 	return(0);
 }
@@ -108,5 +107,3 @@ void	print_forks(t_monitor *monitor)
 // En parallele il met a jour le tableau de mort avec son ID.
 // Le monitor verifie en permanence si une ID est inscrite sur ce tableau (- de 10ms) si le tblea est remplie le monitor met l'etat du symposium a -1.
 // Je pense qu'en plus de bloquer le dejeuner, il faut faire en sorte que des qu'un philo
-// se poser sur l'algo du passage a table des philos.
-// commencer les fourchette

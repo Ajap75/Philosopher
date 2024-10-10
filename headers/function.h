@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 18:34:53 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 12:26:11 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,18 @@
 # include <stdlib.h>
 # include <sys/time.h>
 # include <unistd.h>
+# include <limits.h>
 
 // Parsing
 void		clean(t_monitor *monitor);
 int			ft_isdigit(int c);
 int			is_arg_digit(int argc, char **argv);
-int			ft_atoi(const char *nptr);
-int			parsing(int argc, char **argv, t_monitor *monitor);
+long			ft_atol(const char *nptr);
+int			parsing(int argc, char **argv);
+void print_error_message (int error_code);
+int	is_empty_string(int argc, char **argv);
+
+
 
 // Clean and free : Destroy mutex and free memory allocated
 

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 17:48:03 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 12:09:33 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
 	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
 	monitor->mutabilitas->symposium_state = malloc(sizeof(int));
-	monitor->veritas->nbr_philo = ft_atoi(argv[1]);
-	monitor->veritas->time_to_die = ft_atoi(argv[2]);
-	monitor->veritas->time_to_eat = ft_atoi(argv[3]);
-	monitor->veritas->time_to_sleep = ft_atoi(argv[4]);
+	monitor->veritas->nbr_philo = ft_atol(argv[1]);
+	monitor->veritas->time_to_die = ft_atol(argv[2]);
+	monitor->veritas->time_to_eat = ft_atol(argv[3]);
+	monitor->veritas->time_to_sleep = ft_atol(argv[4]);
 	monitor->veritas->start_time = 0;
 	set_dead_ph_id(monitor, -1);
 	set_has_eaten_enough(monitor, 0);
@@ -41,7 +41,7 @@ void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	set_is_speaking(monitor, 0);
 	monitor->philos = malloc(sizeof(t_philo) * monitor->veritas->nbr_philo);
 	if (argc == 6)
-		monitor->veritas->meal_target = ft_atoi(argv[5]);
+		monitor->veritas->meal_target = ft_atol(argv[5]);
 	else
 		monitor->veritas->meal_target = -1;
 	pthread_create(&monitor->monitor, NULL, (void *)routine_monitor, monitor);
@@ -85,6 +85,7 @@ void	init_philos(t_monitor *monitor)
 		monitor->philos[i].monitor = monitor;
 		pthread_mutex_init(&monitor->philos[i].mutex.last_meal_time, NULL);
 		pthread_mutex_init(&monitor->philos[i].mutex.meals_eaten, NULL);
+		pthread_mutex_init(&monitor->philos[i].mutex.life, NULL);
 		init_fork(monitor, &monitor->philos[i]);
 		i++;
 	}
