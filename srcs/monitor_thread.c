@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 18:51:27 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:44:17 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	who_has_died(t_monitor *monitor)
 	while (i < monitor->veritas->nbr_philo)
 	{
 		last_meal_time = get_last_meal_time(&monitor->philos[i]);
-		if (current_time - last_meal_time >= monitor->veritas->time_to_die)
+		if ((current_time - last_meal_time >= monitor->veritas->time_to_die) && get_life_statut(&monitor->philos[i]) == )   ICICICICI traite le statut EAT SLEEP et autre en en creant un mutex pas le statut life 
 		{
 			pthread_mutex_lock(&monitor->philos[i].mutex.life);
 			monitor->philos[i].life = DEAD;

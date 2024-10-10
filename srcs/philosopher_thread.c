@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 18:49:25 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:38:15 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	*routine(void *arg)
 		}
 	}
 	pre_drink(philo);
+	if (philo->id % 2 == 0)
+		ft_usleep(5);
 	if (get_symposium_state(philo->monitor) == 1)
 	{
 		while (1)
@@ -86,7 +88,6 @@ void	even_philo_eat(t_philo *philo)
 
 void	odd_philo_eat(t_philo *philo)
 {
-	if (philo->veritas->nbr_philo > 1)
 	{
 		take_right_fork_first(philo);
 		{
@@ -103,11 +104,13 @@ void	odd_philo_eat(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-
-	if (philo->id % 2 == 0)
-		even_philo_eat(philo);
-	else
-		odd_philo_eat(philo);
+	if (philo->veritas->nbr_philo > 1)
+	{
+		if (philo->id % 2 == 0)
+			even_philo_eat(philo);
+		else
+			odd_philo_eat(philo);
+	}
 
 	return ;
 
@@ -148,19 +151,20 @@ void	speak(t_philo *philo, int action)
 {
 	while (1)
 	{
+
 		if (pthread_mutex_lock(&philo->monitor->mutex.is_speaking) == 0)
 		{
 			if (action == EATING)
-				printf("%zu %d \033[0;33mis eating\033[0m\n", get_time(),
+				printf("%zu %d \033[0;33mis eating\033[0m\n", get_time() - philo->veritas->start_time,
 					philo->id);
 			else if (action == SLEEPING)
-				printf("%zu %d \033[0;32mis sleeping\033[0m\n", get_time(),
+				printf("%zu %d \033[0;32mis sleeping\033[0m\n", get_time() - philo->veritas->start_time,
 					philo->id);
 			else if (action == THINKING)
-				printf("%zu %d \033[0;34mis thinking\033[0m\n", get_time(),
+				printf("%zu %d \033[0;34mis thinking\033[0m\n", get_time() - philo->veritas->start_time,
 					philo->id);
 			else if (action == HAS_TAKEN_A_FORK)
-				printf("%zu %d \033[0;35mhas taken a fork\033[0m\n", get_time(),
+				printf("%zu %d \033[0;35mhas taken a fork\033[0m\n", get_time() - philo->veritas->start_time,
 					philo->id);
 			pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
 			break ;

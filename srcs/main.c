@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 15:33:10 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 17:44:35 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int	main(int argc, char *argv[])
 	init_philos(&monitor);
 	join_threads(&monitor);
 	print_symp_info(&monitor);
-	print_forks(&monitor);
+	// print_forks(&monitor);
 	clean(&monitor);
 	return(0);
 }
@@ -99,10 +99,5 @@ void	print_forks(t_monitor *monitor)
 		i++;
 	}
 }
-
-
-// utile de creer une data time of death;
-// Faire en sorte qu'un philosopher ne plus plus manger s'il est mort. Rester surt l'idee de chaue philosopher se marque comme mort quand il meurt et verifie s'il est mort avant de manger.
-// En parallele il met a jour le tableau de mort avec son ID.
-// Le monitor verifie en permanence si une ID est inscrite sur ce tableau (- de 10ms) si le tblea est remplie le monitor met l'etat du symposium a -1.
-// Je pense qu'en plus de bloquer le dejeuner, il faut faire en sorte que des qu'un philo
+// CF COMMENTAIRE DANS MONITOR THREAD
+//Last meal time : Faire en sorte au'un philo ne puisse pas mourir quand il mange. Se renseigner pour savoir s'il faut update le last meal time au debut du repas et a la fin
