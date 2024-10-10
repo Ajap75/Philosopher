@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:42:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 12:29:24 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/10 14:41:21 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,20 @@ int is_arg_digit(int argc, char **argv)
 	i = 1;
 	while (i < argc)
 	{
+		j = 0;
 		while(argv[i][j])
 		{
-			if (argv[i][0] == '-' || argv[i][0] == '+')
+			if (argv[i][j] == '-' || argv[i][j] == '+')
 				j++;
+			printf("C =%c\n", argv[i][j]);
 			if (ft_isdigit(argv[i][j]) == 0)
 			{
+				printf("C =%c\n", argv[i][j]);
 				print_error_message(1);
 				return(1);
 			}
 			j++;
 		}
-		j = 0;
 		i++;
 	}
 	return(0);
@@ -167,7 +169,7 @@ int	parsing(int argc, char **argv)
 void print_error_message (int error_code)
 {
 	if (error_code == 1)
-		printf("\033[0;33mParsing error : Args must be digits\033[0m.\n");
+		printf("\033[0;33mParsing error : Args must be integer\033[0m.\n");
 	else if (error_code == 2)
 		printf("\033[0;33mParsing error : Args must be stricly positive int.\033[0m\n");
 	else if (error_code == 3)
