@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:24:06 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 14:37:44 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 16:16:30 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ void	speak(t_philo *philo, int action)
 		if (action == EATING)
 			secure_print("is eating\n", philo, YELLOW, get_time());
 		else if (action == SLEEPING)
-			secure_print("is thinking\n", philo, BLUE, get_time());
+			secure_print("is sleeping\n", philo, BLUE, get_time());
 		else if (action == THINKING)
-			secure_print("is sleeping\n", philo, GREEN, get_time());
+			secure_print("is thinking\n", philo, GREEN, get_time());
 		else if (action == HAS_TAKEN_A_FORK)
 			secure_print("has taken a fork\n", philo, PURPLE, get_time());
 		else if (action == DEAD)

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 14:27:10 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:37:27 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,21 @@ void	eat(t_philo *philo)
 }
 void	think(t_philo *philo)
 {
-	philo->statut = THINKING;
-	speak(philo, philo->statut);
+	// int	is_odd;
+
+	if (philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
+		ft_usleep(philo->monitor->veritas->time_to_eat - philo->monitor->veritas->time_to_sleep);
+	// 	&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
+	// if (philo->id % 2 != 0)
+	// 	is_odd = 5;
+	// else
+	// 	is_odd = 0;
+	// if (philo->monitor->veritas->nbr_philo % 2 != 0
+	// 	&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
+	// philo->statut = THINKING;
+	// 	ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
+	// 			- philo->monitor->veritas->time_to_sleep));
+	// speak(philo, philo->statut);
 }
 
 void	even_philo_eat(t_philo *philo)
@@ -102,3 +115,11 @@ while the others are still waiting to acquire their first.
 This staggered approach helps balance the contention for
  forks and allows some philosophers to eat while others wait,
 avoiding deadlock and unnecessary contention. */
+
+/*I implemented three stage of synchronisation to avoid the death of a philosopher.
+
+1) The odd philos jump in the simulation (eat, sleep, thing) loop, with a delay of 10ms. Solve the problem in classics simulation condition (even number of philos)
+
+2) Every odd philosopher delay their eat action by 5ms in one meal of two. I think we can even simplify applying this delay only to the last or the first philosopher.
+
+3) When the sleep time is lower than the eat time and it's an odd number of philos simulation. Those begining to eat the first meal and those having the second meal, will be already in line for the third meal and lock the mutex blocking the looser of the two first meal to eat. */
