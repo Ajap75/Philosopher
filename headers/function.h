@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 11:59:00 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:46:42 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int				who_has_died(t_monitor *monitor);
 // Routine philo
 void			*routine(void *arg);
 void			pre_drink(t_philo *philo);
+void			think(t_philo *philo);
 void			eat(t_philo *philo);
 void			even_philo_eat(t_philo *philo);
 void			odd_philo_eat(t_philo *philo);
@@ -108,6 +109,13 @@ void			update_fed_philos_count(t_monitor *monitor, int i);
 int				get_fed_philos_count(t_monitor *monitor);
 void			take_right_fork_first(t_philo *philo);
 void			take_left_fork_first(t_philo *philo);
+
+//test
+
+void	print_symp_info(t_monitor *monitor);
+void	printf_forks(pthread_mutex_t *pthread_mutex);
+void	print_symp_info(t_monitor *monitor);
+
 
 
 #endif

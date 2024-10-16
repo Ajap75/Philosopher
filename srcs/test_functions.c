@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:40:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 11:46:20 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:43:21 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,10 @@ void	printf_forks(pthread_mutex_t *pthread_mutex)
 }
 void	print_forks(t_monitor *monitor)
 {
-	int i;
-	i = 0;
+	int	i;
 
-	while(i < monitor->veritas->nbr_philo)
+	i = 0;
+	while (i < monitor->veritas->nbr_philo)
 	{
 		printf("\n");
 		printf("la fourchette de gauche de %d est : ", monitor->philos[i].id);
@@ -32,4 +32,17 @@ void	print_forks(t_monitor *monitor)
 		printf("\n");
 		i++;
 	}
+}
+
+void	print_symp_info(t_monitor *monitor)
+{
+	printf("\n \033[0;33m*** Monitor informtions ***\033[0m\n");
+	printf("  How many philoophers are sitting ? = %d\n",
+		*monitor->mutabilitas->is_sitting);
+	printf("  How many philoophers are speaking ? = %d\n",
+		*monitor->mutabilitas->is_speaking);
+	printf("  Status of the symposium state? = %d\n",
+		*monitor->mutabilitas->symposium_state);
+	printf("  How many philosophers has eatten enough? = %d\n",
+		*monitor->mutabilitas->has_eaten_enough);
 }

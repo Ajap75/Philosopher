@@ -6,99 +6,42 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:42:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 15:32:48 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 14:47:21 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/function.h"
 #include "../headers/structure.h"
 
-
-int	ft_isdigit(int c)
-{
-
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
-}
-
-int is_arg_digit(int argc, char **argv)
-{
-	int i;
-	int j;
-	j = 0;
-	i = 1;
-	while (i < argc)
-	{
-		j = 0;
-		while(argv[i][j])
-		{
-			if (argv[i][j] == '-' || argv[i][j] == '+')
-				j++;
-			if (ft_isdigit(argv[i][j]) == 0)
-			{
-				print_error_message(1);
-				return(1);
-			}
-			j++;
-		}
-		i++;
-	}
-	return(0);
-}
-
-long	ft_atol(const char *nptr)
-{
-	int	sign;
-	long	result;
-	int	digit;
-
-	sign = 1;
-	result = 0;
-	while (*nptr == ' ' || (*nptr >= 9 && *nptr <= 13))
-		nptr++;
-	if (*nptr == '-')
-		sign = -1;
-	if (*nptr == '-' || *nptr == '+')
-		nptr++;
-	digit = 0;
-	while (*nptr >= '0' && *nptr <= '9')
-	{
-		digit = *nptr - 48;
-		result = result * 10 + digit;
-		nptr++;
-	}
-	return (sign * result);
-}
-
 int	check_range(long arg)
 {
 	if (arg > INT_MAX || arg < INT_MIN)
 	{
 		print_error_message(2);
-		return(1);
+		return (1);
 	}
 	if (arg < 0)
 	{
 		print_error_message(2);
-		return(1);
+		return (1);
 	}
 	return (0);
 }
 int	is_empty_string(int argc, char **argv)
 {
-	int i;
+	int	i;
+
 	i = 1;
 	while (i < argc)
 	{
 		if (argv[i][0] == '\0')
 		{
 			print_error_message(5);
-			return(1);
+			return (1);
 		}
 		i++;
 	}
-	return(0);
+	return (0);
 }
 
 int	check_range_of_philosopher(long nbr_philo)
@@ -106,65 +49,40 @@ int	check_range_of_philosopher(long nbr_philo)
 	if (nbr_philo < 1 || nbr_philo > 200)
 	{
 		print_error_message(3);
-		return(1);
+		return (1);
 	}
 	return (0);
 }
 
 int	parsing(int argc, char **argv)
 {
-	int i;
-	printf("argc = %d\n", argc);
+	int	i;
+
 	i = 1;
 	if (argc >= 5 && argc <= 6)
 	{
 		if (is_empty_string(argc, argv))
 			return (1);
 		if (is_arg_digit(argc, argv))
-			return(1);
+			return (1);
 		if (check_range_of_philosopher(ft_atol(argv[1])))
-			return(1);
+			return (1);
 		while (i < argc)
 		{
 			if (check_range(ft_atol(argv[i])))
-				return(1);
+				return (1);
 			i++;
 		}
 	}
 	else
 	{
 		print_error_message(4);
-		return(1);
+		return (1);
 	}
-	return(0);
+	return (0);
 }
 
-// int ft_isspace(char *ptr)
-// {
-// 	if (*ptr >= 9 && *ptr <= 13 || *ptr == 32)
-// 		return (1);
-// 	return (0);
-// }
-
-// long	ft_strtol(const char *str, char **endptr, int base)
-// {
-// 	const char *ptr = str;
-// 	long result;
-// 	int sign = 1;
-
-// 	while (isspace(*ptr))
-// 		ptr++;
-// 	if (*ptr == '-')
-// 	{
-// 		sign *= -1;
-// 		ptr++;
-// 	}
-// 	else if (*ptr == '+')
-// 		ptr++;
-
-// }
-
-void print_error_message (int error_code)
+void	print_error_message(int error_code)
 {
 	if (error_code == 1)
 		printf("\033[0;33mParsing error : Args must be integer\033[0m.\n");

@@ -6,7 +6,7 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/08 15:22:31 by anastruc          #+#    #+#              #
-#    Updated: 2024/10/09 15:45:23 by anastruc         ###   ########.fr        #
+#    Updated: 2024/10/16 14:23:33 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,11 +24,16 @@ HEADER_F = headers/function.h \
 			headers/structure.h \
 
 MANDATORY_SRCS = parsing.c \
+				 parsing_utils.c \
 				 main.c \
 				 init.c \
 				 philosopher_thread.c \
+				 philosopher_thread_utils.c \
 				monitor_thread.c \
 				getter_setter.c \
+				getter_setter2.c \
+				getter_setter3.c \
+				getter_setter4.c \
 				support_function.c \
 				clean_and_free.c \
 
