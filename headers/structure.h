@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/09 17:50:52 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:04:20 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_symposium_veritas
 	int			time_to_sleep;
 	int			time_to_eat;
 	int			meal_target;
-	size_t			start_time;
+	unsigned long			start_time;
 }				t_veritas;
 
 typedef struct s_symposium_mutabilitas
@@ -60,6 +60,8 @@ typedef struct s_ph_mutex
 	pthread_mutex_t last_meal_time;
 	pthread_mutex_t meals_eaten;
 	pthread_mutex_t life;
+	pthread_mutex_t statut;
+
 
 	 // Chaque thread (Philosopher) a sa propre structure representant ses fourchettes. Mais en realite il n'a que la fourchette de gauche qui lui appartint reellement,
 						//	la fourchette de droite il ne connait que son emplacement grace a l'adresse du Mutex qui represente la fourchette de gauche de son voisin.
@@ -71,11 +73,11 @@ typedef struct s_philo
 {
 	pthread_t	ph;
 	int			id;
-	int			status;
+	int			statut;
 	int			life;
 	t_veritas	*veritas; //pointeur vers les datas immutables de la simulation
 	int			meals_eaten;
-	size_t		last_meal_time;
+	unsigned long		last_meal_time;
 	t_ph_mutex	mutex;
 	t_monitor	*monitor;
 }				t_philo;

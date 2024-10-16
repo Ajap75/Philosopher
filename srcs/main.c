@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 17:44:35 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:41:11 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,25 +79,6 @@ int	main(int argc, char *argv[])
 	clean(&monitor);
 	return(0);
 }
-void	printf_forks(pthread_mutex_t *pthread_mutex)
-{
-	printf("Mutex adress = %p\n", (void *)pthread_mutex);
-}
-void	print_forks(t_monitor *monitor)
-{
-	int i;
-	i = 0;
 
-	while(i < monitor->veritas->nbr_philo)
-	{
-		printf("\n");
-		printf("la fourchette de gauche de %d est : ", monitor->philos[i].id);
-		printf_forks(&monitor->philos[i].mutex.lf);
-		printf("la fourchette de droite de %d est : ", monitor->philos[i].id);
-		printf_forks(monitor->philos[i].mutex.rf);
-		printf("\n");
-		i++;
-	}
-}
 // CF COMMENTAIRE DANS MONITOR THREAD
 //Last meal time : Faire en sorte au'un philo ne puisse pas mourir quand il mange. Se renseigner pour savoir s'il faut update le last meal time au debut du repas et a la fin

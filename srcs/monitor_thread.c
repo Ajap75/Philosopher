@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 17:44:17 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 12:25:07 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,27 +45,26 @@ int	who_has_died(t_monitor *monitor)
 	int	i;
 	long long	current_time;
 	long long	last_meal_time;
-	// long long 	delta;
 
 	i = 0;
 	current_time = get_time();
 	while (i < monitor->veritas->nbr_philo)
 	{
 		last_meal_time = get_last_meal_time(&monitor->philos[i]);
-		if ((current_time - last_meal_time >= monitor->veritas->time_to_die) && get_life_statut(&monitor->philos[i]) == )   ICICICICI traite le statut EAT SLEEP et autre en en creant un mutex pas le statut life 
+		if ((current_time - last_meal_time >= monitor->veritas->time_to_die))
 		{
-			pthread_mutex_lock(&monitor->philos[i].mutex.life);
-			monitor->philos[i].life = DEAD;
-			pthread_mutex_unlock(&monitor->philos[i].mutex.life);
-			pthread_mutex_lock(&monitor->mutex.is_speaking);
-			printf("Time to die = %d\n", monitor->veritas->time_to_die);
-			printf("Last meal time = %lld\n", get_last_meal_time(&monitor->philos[i]));
-			printf("current time = %lld\n", current_time);
-			printf("Delta = %lld\n", current_time - last_meal_time);
-			printf("meals eaten = %d\n", get_meals_eaten(&monitor->philos[i]));
-			printf("%d died\n", monitor->philos[i].id);
-			pthread_mutex_unlock(&monitor->mutex.is_speaking);
+			// pthread_mutex_lock(&monitor->philos[i].mutex.life);
+			// monitor->philos[i].life = DEAD;
+			// pthread_mutex_unlock(&monitor->philos[i].mutex.life);
+			// pthread_mutex_lock(&monitor->mutex.is_speaking);
+			speak(&monitor->philos[i], DEAD);
 			set_symposium_state(monitor, -1);
+			// printf("Time to die = %d\n", monitor->veritas->time_to_die);
+			// printf("Last meal time = %lld\n", get_last_meal_time(&monitor->philos[i]));
+			// printf("current time = %lld\n", current_time);
+			// printf("Delta = %lld\n", current_time - last_meal_time);
+			// printf("meals eaten = %d\n", get_meals_eaten(&monitor->philos[i]));
+			// pthread_mutex_unlock(&monitor->mutex.is_speaking);
 			return (0);
 		}
 		i++;

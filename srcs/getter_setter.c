@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 16:00:42 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:51:41 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,6 @@
 
 // getter and setter are usefull especially when you want to check a value in an if condition
 
-
-void	set_dead_ph_id(t_monitor *monitor, int id)
-{
-	pthread_mutex_lock(&monitor->mutex.dead_ph);
-	*monitor->mutabilitas->dead_ph_id = id;
-	pthread_mutex_unlock(&monitor->mutex.dead_ph);
-}
-
-int	get_dead_ph_id(t_monitor *monitor)
-{
-	int	tmp;
-
-	pthread_mutex_lock(&monitor->mutex.dead_ph);
-	tmp = *monitor->mutabilitas->dead_ph_id;
-	pthread_mutex_unlock(&monitor->mutex.dead_ph);
-	return (tmp);
-}
 
 void	set_has_eaten_enough(t_monitor *monitor, int has_eaten_enough)
 {
@@ -111,7 +94,6 @@ void	set_symposium_state(t_monitor *monitor, int symposium_state)
 int	get_symposium_state(t_monitor *monitor)
 {
 	int	tmp;
-	ft_usleep(1);
 	pthread_mutex_lock(&monitor->mutex.symposium_state);
 	tmp = *monitor->mutabilitas->symposium_state;
 	pthread_mutex_unlock(&monitor->mutex.symposium_state);
@@ -178,4 +160,5 @@ int	get_life_statut(t_philo *philo)
 	pthread_mutex_unlock(&philo->mutex.life);
 	return(rtn);
 }
+
 

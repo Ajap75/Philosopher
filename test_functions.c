@@ -1,35 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   support_function.c                                 :+:      :+:    :+:   */
+/*   test_functions.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/08 15:06:59 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/15 17:59:10 by anastruc         ###   ########.fr       */
+/*   Created: 2024/10/16 11:40:42 by anastruc          #+#    #+#             */
+/*   Updated: 2024/10/16 11:46:20 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/function.h"
 #include "../headers/structure.h"
 
-int	ft_usleep(size_t millisecond)
+void	printf_forks(pthread_mutex_t *pthread_mutex)
 {
-	size_t	start;
-
-	start = get_time();
-	while (get_time() - start < millisecond)
-	{
-		usleep(500);
-	}
-	return (0);
+	printf("Mutex adress = %p\n", (void *)pthread_mutex);
 }
-
-unsigned long	get_time(void)
+void	print_forks(t_monitor *monitor)
 {
-	struct timeval current_time;
+	int i;
+	i = 0;
 
-	gettimeofday(&current_time, NULL);
-	return (((long long)current_time.tv_sec * 1000) + (current_time.tv_usec
-			/ 1000));
+	while(i < monitor->veritas->nbr_philo)
+	{
+		printf("\n");
+		printf("la fourchette de gauche de %d est : ", monitor->philos[i].id);
+		printf_forks(&monitor->philos[i].mutex.lf);
+		printf("la fourchette de droite de %d est : ", monitor->philos[i].id);
+		printf_forks(monitor->philos[i].mutex.rf);
+		printf("\n");
+		i++;
+	}
 }

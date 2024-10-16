@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/10 12:09:33 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/16 11:53:41 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,9 @@ void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	monitor->veritas = malloc(sizeof(t_veritas));
 	monitor->mutabilitas = malloc(sizeof(t_mutabilitas));
 	pthread_mutex_init(&monitor->mutex.is_speaking, NULL);
-	pthread_mutex_init(&monitor->mutex.dead_ph, NULL);
 	pthread_mutex_init(&monitor->mutex.is_sitting, NULL);
 	pthread_mutex_init(&monitor->mutex.symposium_state, NULL);
 	pthread_mutex_init(&monitor->mutex.has_eaten_enough, NULL);
-	monitor->mutabilitas->dead_ph_id = malloc(sizeof(int));
 	monitor->mutabilitas->has_eaten_enough = malloc(sizeof(int));
 	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
 	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
@@ -34,7 +32,6 @@ void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	monitor->veritas->time_to_eat = ft_atol(argv[3]);
 	monitor->veritas->time_to_sleep = ft_atol(argv[4]);
 	monitor->veritas->start_time = 0;
-	set_dead_ph_id(monitor, -1);
 	set_has_eaten_enough(monitor, 0);
 	set_is_sitting(monitor, 0);
 	set_symposium_state(monitor, -1);
@@ -79,7 +76,7 @@ void	init_philos(t_monitor *monitor)
 		monitor->philos[i].life = ALIVE;
 		monitor->philos[i].meals_eaten = 0;
 		monitor->philos[i].last_meal_time = monitor->veritas->start_time;
-		monitor->philos[i].status = 0;
+		monitor->philos[i].statut = 0;
 		monitor->philos[i].meals_eaten = 0;
 		monitor->philos[i].veritas = monitor->veritas;
 		monitor->philos[i].monitor = monitor;
