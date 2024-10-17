@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 14:46:42 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:12:26 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ long			ft_atol(const char *nptr);
 int				parsing(int argc, char **argv);
 void			print_error_message(int error_code);
 int				is_empty_string(int argc, char **argv);
+int				check_arguments_range(long nbr_philo, long eat_time,
+					long sleep_time);
 
 // Clean and free : Destroy mutex and free memory allocated
 
@@ -87,7 +89,7 @@ int				am_i_alive(t_philo *philo);
 int				get_life_statut(t_philo *philo);
 
 void			secure_print(char *s, t_philo *philo, char *color,
-					unsigned long time_in_ms);
+					int end_flag);
 
 // getter and setter
 
@@ -110,12 +112,11 @@ int				get_fed_philos_count(t_monitor *monitor);
 void			take_right_fork_first(t_philo *philo);
 void			take_left_fork_first(t_philo *philo);
 
-//test
+// test
 
-void	print_symp_info(t_monitor *monitor);
-void	printf_forks(pthread_mutex_t *pthread_mutex);
-void	print_symp_info(t_monitor *monitor);
-
-
+void			print_symp_info(t_monitor *monitor);
+void			printf_forks(pthread_mutex_t *pthread_mutex);
+void			print_symp_info(t_monitor *monitor);
+void			print_mess(char *message, int philo, t_monitor *monitor);
 
 #endif

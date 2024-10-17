@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:40:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 14:43:21 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 15:07:38 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,4 +45,11 @@ void	print_symp_info(t_monitor *monitor)
 		*monitor->mutabilitas->symposium_state);
 	printf("  How many philosophers has eatten enough? = %d\n",
 		*monitor->mutabilitas->has_eaten_enough);
+}
+
+void	print_mess(char *message, int philo, t_monitor *monitor)
+{
+	pthread_mutex_lock(&monitor->mutex.is_speaking);
+	printf("// %s%d%s // %s\n", RED, philo, RESET, message);
+	pthread_mutex_unlock(&monitor->mutex.is_speaking);
 }

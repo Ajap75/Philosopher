@@ -6,14 +6,14 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/08 15:22:31 by anastruc          #+#    #+#              #
-#    Updated: 2024/10/16 14:23:33 by anastruc         ###   ########.fr        #
+#    Updated: 2024/10/17 18:29:36 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 NAME = philosopher
 COMPIL = cc
-FLAGS = -Wall -Werror -Wextra -pthread -g3 -fPIC
+FLAGS = -Wall -Werror -Wextra -pthread -g3 -fPIC 
 # -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined -fsanitize=integer -fsanitize=null -fsanitize=unreachable
 #ATTENTION FLAG A UTILISER SEPAREMENT DE VALGRIND
 PINK = \033[1;35m
@@ -36,6 +36,7 @@ MANDATORY_SRCS = parsing.c \
 				getter_setter4.c \
 				support_function.c \
 				clean_and_free.c \
+				test_functions.c \
 
 # Magic with srcs and objs #
 

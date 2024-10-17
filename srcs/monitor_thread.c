@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 14:42:21 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:18:20 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	who_has_died(t_monitor *monitor)
 		if ((current_time - last_meal_time >= monitor->veritas->time_to_die))
 		{
 			speak(&monitor->philos[i], DEAD);
-			set_symposium_state(monitor, -1);
+			// set_symposium_state(monitor, -1);
 			return (0);
 		}
 		i++;

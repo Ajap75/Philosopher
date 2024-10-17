@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:24:06 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 11:56:06 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:34:14 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,29 +37,42 @@ void	bedtime(t_philo *philo)
 
 void	speak(t_philo *philo, int action)
 {
-		if (action == EATING)
-			secure_print("is eating", philo, YELLOW, get_time());
-		else if (action == SLEEPING)
-			secure_print("is sleeping", philo, BLUE, get_time());
-		else if (action == THINKING)
-			secure_print("is thinking", philo, GREEN, get_time());
-		else if (action == HAS_TAKEN_A_FORK)
-			secure_print("has taken a fork", philo, PURPLE, get_time());
-		else if (action == DEAD)
-			secure_print("died\n", philo, RED, get_time());
-
+		if (get_symposium_state(philo->monitor) == 1)
+		{
+			if (action == EATING)
+				secure_print("is eating", philo, YELLOW, 0);
+			else if (action == SLEEPING)
+				secure_print("is sleeping", philo, BLUE, 0);
+			else if (action == THINKING)
+				secure_print("is thinking", philo, GREEN, 0);
+			else if (action == HAS_TAKEN_A_FORK)
+				secure_print("has taken a fork", philo, PURPLE, 0);
+			else if (action == DEAD)
+			{
+				secure_print("died", philo, RED, 1);
+				set_symposium_state(philo->monitor, -1);
+			}
+		}
 }
 
-void	secure_print(char *s, t_philo *philo, char *color,
-		unsigned long time_in_ms)
+void	secure_print(char *s, t_philo *philo, char *color, int end_flag)
 {
-	unsigned long	time;
-	(void) time_in_ms;
-	if (get_symposium_state(philo->monitor) != 1)
-		return ;
+	unsigned long time;
+
+
+
+
 	pthread_mutex_lock(&philo->monitor->mutex.is_speaking);
-	time =	get_time() - philo->monitor->veritas->start_time;
+	if (get_symposium_state(philo->monitor) == 1)
+	{
+	time = get_time() - philo->monitor->veritas->start_time;
 	printf("%s%ld %d %s%s\n", color, time, philo->id, s, RESET);
+	}
+	if (end_flag == 1)
+		set_symposium_state(philo->monitor, -1);
 	pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
+
 }
+
+
 

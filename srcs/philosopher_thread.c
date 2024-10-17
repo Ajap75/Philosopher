@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 12:06:50 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:05:39 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,16 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	pre_drink(philo);
 	if (philo->id % 2 == 0)
-		ft_usleep(10);
+		ft_usleep(5);
 	if (get_symposium_state(philo->monitor) == 1)
 	{
-		while (1)
+		while (get_symposium_state(philo->monitor) == 1)
 		{
-			if (get_symposium_state(philo->monitor) == 1
-				&& get_life_statut(philo) == ALIVE)
+			if (get_symposium_state(philo->monitor) == 1)
 				eat(philo);
-			if (get_symposium_state(philo->monitor) == 1
-				&& get_life_statut(philo) == ALIVE)
+			if (get_symposium_state(philo->monitor) == 1)
 				bedtime(philo);
-			if (get_symposium_state(philo->monitor) == 1
-				&& get_life_statut(philo) == ALIVE)
+			if (get_symposium_state(philo->monitor) == 1)
 				think(philo);
 			else
 				return (void *)(NULL);
@@ -54,27 +51,28 @@ void	eat(t_philo *philo)
 }
 void	think(t_philo *philo)
 {
-	// int	is_odd;
+	int	is_odd;
 
 	philo->statut = THINKING;
 	speak(philo, philo->statut);
-	if (philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
-		ft_usleep(philo->monitor->veritas->time_to_eat - philo->monitor->veritas->time_to_sleep);
-	// 	&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
-	// if (philo->id % 2 != 0)
-	// 	is_odd = 5;
-	// else
-	// 	is_odd = 0;
-	// if (philo->monitor->veritas->nbr_philo % 2 != 0
-	// 	&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
-	// 	ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
-	// 			- philo->monitor->veritas->time_to_sleep));
+	// if (philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
+	// 	ft_usleep(philo->monitor->veritas->time_to_eat - philo->monitor->veritas->time_to_sleep);
+	if (philo->id % 2 != 0)
+		is_odd = 5;
+	else
+		is_odd = 0;
+	if (philo->monitor->veritas->nbr_philo % 2 != 0
+		&& philo->monitor->veritas->time_to_eat >= philo->monitor->veritas->time_to_sleep)
+		ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
+				- philo->monitor->veritas->time_to_sleep));
 }
 
 void	even_philo_eat(t_philo *philo)
 {
 	take_left_fork_first(philo);
 	{
+		if (philo->meals_eaten % 2 == 0)
+			ft_usleep(5);
 		philo->statut = EATING;
 		speak(philo, philo->statut);
 		ft_usleep(philo->monitor->veritas->time_to_eat);
@@ -89,7 +87,7 @@ void	odd_philo_eat(t_philo *philo)
 {
 	{
 		if (philo->meals_eaten % 2 != 0)
-			ft_usleep(2);
+			ft_usleep(5);
 		take_right_fork_first(philo);
 		{
 			philo->statut = EATING;

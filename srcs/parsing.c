@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:42:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 14:47:21 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 18:16:16 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,22 @@ int	is_empty_string(int argc, char **argv)
 	return (0);
 }
 
-int	check_range_of_philosopher(long nbr_philo)
+int	check_arguments_range(long nbr_philo, long eat_time, long sleep_time)
 {
 	if (nbr_philo < 1 || nbr_philo > 200)
 	{
 		print_error_message(3);
 		return (1);
 	}
+	if (eat_time < 60 || sleep_time < 60)
+	{
+		print_error_message(6);
+		return (1);
+	}
 	return (0);
 }
+
+
 
 int	parsing(int argc, char **argv)
 {
@@ -65,7 +72,7 @@ int	parsing(int argc, char **argv)
 			return (1);
 		if (is_arg_digit(argc, argv))
 			return (1);
-		if (check_range_of_philosopher(ft_atol(argv[1])))
+		if (check_arguments_range(ft_atol(argv[1]),ft_atol(argv[3]),ft_atol(argv[4])))
 			return (1);
 		while (i < argc)
 		{
@@ -94,4 +101,6 @@ void	print_error_message(int error_code)
 		printf("\033[0;33mParsing error : Not enough or too many arguments. 4 or 5 arguments required.\033[0m\n");
 	else if (error_code == 5)
 		printf("\033[0;33mParsing error : Empty string passed as arg\033[0m\n");
+	else if (error_code == 6)
+		printf("\033[0;33mParsing error : Sleep and eat time must be greater than 60ms inclusive.\033[0m\n");
 }
