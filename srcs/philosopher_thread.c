@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 17:37:27 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 12:06:50 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	think(t_philo *philo)
 {
 	// int	is_odd;
 
+	philo->statut = THINKING;
+	speak(philo, philo->statut);
 	if (philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
 		ft_usleep(philo->monitor->veritas->time_to_eat - philo->monitor->veritas->time_to_sleep);
 	// 	&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
@@ -65,10 +67,8 @@ void	think(t_philo *philo)
 	// 	is_odd = 0;
 	// if (philo->monitor->veritas->nbr_philo % 2 != 0
 	// 	&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
-	// philo->statut = THINKING;
 	// 	ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
 	// 			- philo->monitor->veritas->time_to_sleep));
-	// speak(philo, philo->statut);
 }
 
 void	even_philo_eat(t_philo *philo)
@@ -89,7 +89,7 @@ void	odd_philo_eat(t_philo *philo)
 {
 	{
 		if (philo->meals_eaten % 2 != 0)
-			ft_usleep(5);
+			ft_usleep(2);
 		take_right_fork_first(philo);
 		{
 			philo->statut = EATING;

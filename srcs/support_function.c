@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:06:59 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 15:01:59 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:42:36 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_usleep(size_t millisecond)
 	start = get_time();
 	while (get_time() - start < millisecond)
 	{
-		usleep(100);
+		usleep(10);
 	}
 	return (0);
 }

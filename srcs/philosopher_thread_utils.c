@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:24:06 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 16:16:30 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:56:06 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ void	bedtime(t_philo *philo)
 void	speak(t_philo *philo, int action)
 {
 		if (action == EATING)
-			secure_print("is eating\n", philo, YELLOW, get_time());
+			secure_print("is eating", philo, YELLOW, get_time());
 		else if (action == SLEEPING)
-			secure_print("is sleeping\n", philo, BLUE, get_time());
+			secure_print("is sleeping", philo, BLUE, get_time());
 		else if (action == THINKING)
-			secure_print("is thinking\n", philo, GREEN, get_time());
+			secure_print("is thinking", philo, GREEN, get_time());
 		else if (action == HAS_TAKEN_A_FORK)
-			secure_print("has taken a fork\n", philo, PURPLE, get_time());
+			secure_print("has taken a fork", philo, PURPLE, get_time());
 		else if (action == DEAD)
 			secure_print("died\n", philo, RED, get_time());
 
@@ -54,11 +54,11 @@ void	secure_print(char *s, t_philo *philo, char *color,
 		unsigned long time_in_ms)
 {
 	unsigned long	time;
-
-	time = time_in_ms - philo->monitor->veritas->start_time;
+	(void) time_in_ms;
 	if (get_symposium_state(philo->monitor) != 1)
 		return ;
 	pthread_mutex_lock(&philo->monitor->mutex.is_speaking);
+	time =	get_time() - philo->monitor->veritas->start_time;
 	printf("%s%ld %d %s%s\n", color, time, philo->id, s, RESET);
 	pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
 }

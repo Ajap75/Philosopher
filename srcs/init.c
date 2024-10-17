@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/16 11:53:41 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/17 11:24:53 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ void	init_philos(t_monitor *monitor)
 	i = 0;
 	while (i < monitor->veritas->nbr_philo)
 	{
-		ft_usleep(500);
 		if (pthread_create(&monitor->philos[i].ph, NULL, (void *)routine,
 				&monitor->philos[i]) == 0)
 			i++;
