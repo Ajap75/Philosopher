@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:01:01 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:12:30 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,6 @@ int	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	if (pthread_create(&monitor->monitor, NULL, (void *)routine_monitor,
 			monitor) != 0)
 		return (print_error_message(THREAD_INIT), 1);
-	return (0);
-}
-
-int	ft_malloc(t_monitor *monitor)
-{
-	monitor->veritas = malloc(sizeof(t_veritas));
-	if (monitor->veritas == NULL)
-		return (1);
-	monitor->mutabilitas = malloc(sizeof(t_mutabilitas));
-	if (monitor->mutabilitas == NULL)
-		return (1);
-	monitor->mutabilitas->has_eaten_enough = malloc(sizeof(int));
-	if (monitor->mutabilitas->has_eaten_enough == NULL)
-		return (1);
-	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
-	if (monitor->mutabilitas->is_sitting == NULL)
-		return (1);
-	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
-	if (monitor->mutabilitas->is_speaking == NULL)
-		return (1);
-	monitor->mutabilitas->symposium_state = malloc(sizeof(int));
-	if (monitor->mutabilitas->symposium_state == NULL)
-		return (1);
 	return (0);
 }
 

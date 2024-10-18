@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:36:44 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:13:43 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ void	who_has_eaten_enough(t_monitor *monitor)
 	}
 	while (i < monitor->veritas->nbr_philo)
 	{
-		if (get_meals_eaten(&monitor->philos[i]) >= monitor->veritas->meal_target)
+		if (get_meals_eaten(&monitor->philos[i]) >= \
+		monitor->veritas->meal_target)
 			j++;
 		i++;
 	}

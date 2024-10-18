@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:58:04 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 11:21:07 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:12:47 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,3 +38,26 @@ void	init_right_fork(t_monitor *monitor, t_philo *philo)
 }
 
 /* keep in mind that the philosophers are stored in an array -> Ph[0].id = 1 */
+
+int	ft_malloc(t_monitor *monitor)
+{
+	monitor->veritas = malloc(sizeof(t_veritas));
+	if (monitor->veritas == NULL)
+		return (1);
+	monitor->mutabilitas = malloc(sizeof(t_mutabilitas));
+	if (monitor->mutabilitas == NULL)
+		return (1);
+	monitor->mutabilitas->has_eaten_enough = malloc(sizeof(int));
+	if (monitor->mutabilitas->has_eaten_enough == NULL)
+		return (1);
+	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
+	if (monitor->mutabilitas->is_sitting == NULL)
+		return (1);
+	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
+	if (monitor->mutabilitas->is_speaking == NULL)
+		return (1);
+	monitor->mutabilitas->symposium_state = malloc(sizeof(int));
+	if (monitor->mutabilitas->symposium_state == NULL)
+		return (1);
+	return (0);
+}
