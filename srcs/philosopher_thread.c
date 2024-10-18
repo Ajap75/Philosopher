@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 14:13:11 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:17:03 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	think(t_philo *philo)
 	else
 		is_odd = 0;
 	if (philo->monitor->veritas->nbr_philo % 2 != 0
-		&& philo->monitor->veritas->time_to_eat >= \
+		&& philo->monitor->veritas->time_to_eat > \
 		philo->monitor->veritas->time_to_sleep)
 		ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
 				- philo->monitor->veritas->time_to_sleep));
