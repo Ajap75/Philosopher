@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:35:04 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:49:38 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:28:59 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ void	destroy_mutex(t_monitor *monitor)
 	}
 	pthread_mutex_destroy(&monitor->mutex.has_eaten_enough);
 	pthread_mutex_destroy(&monitor->mutex.is_sitting);
-	pthread_mutex_destroy(&monitor->mutex.is_speaking);
 	pthread_mutex_destroy(&monitor->mutex.symposium_state);
 }
 
@@ -49,8 +48,6 @@ void	free_everything(t_monitor *monitor)
 		free(monitor->mutabilitas->has_eaten_enough);
 	if (monitor->mutabilitas->is_sitting != NULL)
 		free(monitor->mutabilitas->is_sitting);
-	if (monitor->mutabilitas->is_speaking != NULL)
-		free(monitor->mutabilitas->is_speaking);
 	if (monitor->mutabilitas->symposium_state != NULL)
 		free(monitor->mutabilitas->symposium_state);
 	if (monitor->mutabilitas != NULL)

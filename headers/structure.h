@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:33:36 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:29:08 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ typedef struct s_symposium_mutabilitas
 	int						*has_eaten_enough;
 	int						*is_sitting;
 	int						*symposium_state;
-	int						*is_speaking;
 }							t_mutabilitas;
 
 typedef struct s_m_mutex
@@ -46,7 +45,6 @@ typedef struct s_m_mutex
 	pthread_mutex_t			has_eaten_enough;
 	pthread_mutex_t			is_sitting;
 	pthread_mutex_t			symposium_state;
-	pthread_mutex_t			is_speaking;
 
 }							t_m_mutex;
 

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 14:17:03 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 14:36:50 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ void	think(t_philo *philo)
 	else
 		is_odd = 0;
 	if (philo->monitor->veritas->nbr_philo % 2 != 0
-		&& philo->monitor->veritas->time_to_eat > \
-		philo->monitor->veritas->time_to_sleep)
+		&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
 		ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
 				- philo->monitor->veritas->time_to_sleep));
 }
@@ -70,35 +69,31 @@ void	think(t_philo *philo)
 void	even_philo_eat(t_philo *philo)
 {
 	take_left_fork_first(philo);
-	{
-		if (philo->meals_eaten % 2 == 0)
-			ft_usleep(5);
-		philo->statut = EATING;
-		speak(philo, philo->statut);
-		ft_usleep(philo->monitor->veritas->time_to_eat);
-		set_last_meal_time(philo, get_time());
-		i_finished_lunch(philo);
-	}
+	if (philo->meals_eaten % 2 == 0)
+		ft_usleep(5);
+	philo->statut = EATING;
+	speak(philo, philo->statut);
+	ft_usleep(philo->monitor->veritas->time_to_eat);
+	set_last_meal_time(philo, get_time());
+	i_finished_lunch(philo);
 	pthread_mutex_unlock(&philo->mutex.lf);
 	pthread_mutex_unlock(philo->mutex.rf);
 }
 
 void	odd_philo_eat(t_philo *philo)
 {
+	if (philo->meals_eaten % 2 != 0)
+		ft_usleep(5);
+	take_right_fork_first(philo);
 	{
-		if (philo->meals_eaten % 2 != 0)
-			ft_usleep(5);
-		take_right_fork_first(philo);
-		{
-			philo->statut = EATING;
-			speak(philo, philo->statut);
-			ft_usleep(philo->monitor->veritas->time_to_eat);
-			set_last_meal_time(philo, get_time());
-			i_finished_lunch(philo);
-		}
-		pthread_mutex_unlock(philo->mutex.rf);
-		pthread_mutex_unlock(&philo->mutex.lf);
+		philo->statut = EATING;
+		speak(philo, philo->statut);
+		ft_usleep(philo->monitor->veritas->time_to_eat);
+		set_last_meal_time(philo, get_time());
+		i_finished_lunch(philo);
 	}
+	pthread_mutex_unlock(philo->mutex.rf);
+	pthread_mutex_unlock(&philo->mutex.lf);
 }
 
 /* Depending on whether a philosopher has an odd or even ID,

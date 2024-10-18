@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:24:06 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:38:09 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:21:17 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 
 void	pre_drink(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->mutex.life);
-	philo->life = ALIVE;
-	pthread_mutex_unlock(&philo->mutex.life);
+	// pthread_mutex_lock(&philo->mutex.life);
+	// philo->life = ALIVE;
+	// pthread_mutex_unlock(&philo->mutex.life);
 	i_am_sitting(philo->monitor);
 	while (1)
 	{
@@ -46,10 +46,7 @@ void	speak(t_philo *philo, int action)
 		else if (action == HAS_TAKEN_A_FORK)
 			secure_print("has taken a fork", philo, PURPLE, 0);
 		else if (action == DEAD)
-		{
 			secure_print("died", philo, RED, 1);
-			set_symposium_state(philo->monitor, -1);
-		}
 	}
 }
 
@@ -57,13 +54,15 @@ void	secure_print(char *s, t_philo *philo, char *color, int end_flag)
 {
 	unsigned long	time;
 
-	pthread_mutex_lock(&philo->monitor->mutex.is_speaking);
-	if (get_symposium_state(philo->monitor) == 1)
+	pthread_mutex_lock(&philo->monitor->mutex.symposium_state);
+	if (*philo->monitor->mutabilitas->symposium_state == -1)
 	{
-		time = get_time() - philo->monitor->veritas->start_time;
-		printf("%s%ld %d %s%s\n", color, time, philo->id, s, RESET);
+		pthread_mutex_unlock(&philo->monitor->mutex.symposium_state);
+		return ;
 	}
+	time = get_time() - philo->monitor->veritas->start_time;
+	printf("%s%ld %d %s%s\n", color, time, philo->id, s, RESET);
 	if (end_flag == 1)
-		set_symposium_state(philo->monitor, -1);
-	pthread_mutex_unlock(&philo->monitor->mutex.is_speaking);
+		*philo->monitor->mutabilitas->symposium_state = -1;
+	pthread_mutex_unlock(&philo->monitor->mutex.symposium_state);
 }

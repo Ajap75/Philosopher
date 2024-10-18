@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:40:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:51:07 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:28:01 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ void	print_symp_info(t_monitor *monitor)
 	printf("\n \033[0;33m*** Monitor informtions ***\033[0m\n");
 	printf("  How many philoophers are sitting ? = %d\n",
 		*monitor->mutabilitas->is_sitting);
-	printf("  How many philoophers are speaking ? = %d\n",
-		*monitor->mutabilitas->is_speaking);
+
 	printf("  Status of the symposium state? = %d\n",
 		*monitor->mutabilitas->symposium_state);
 	printf("  How many philosophers has eatten enough? = %d\n",
@@ -50,7 +49,7 @@ void	print_symp_info(t_monitor *monitor)
 
 void	print_mess(char *message, int philo, t_monitor *monitor)
 {
-	pthread_mutex_lock(&monitor->mutex.is_speaking);
+	pthread_mutex_lock(&monitor->mutex.symposium_state);
 	printf("// %s%d%s // %s\n", RED, philo, RESET, message);
-	pthread_mutex_unlock(&monitor->mutex.is_speaking);
+	pthread_mutex_unlock(&monitor->mutex.symposium_state);
 }

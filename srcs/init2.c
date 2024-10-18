@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/18 10:58:04 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 14:12:47 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:28:13 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,6 @@ int	ft_malloc(t_monitor *monitor)
 		return (1);
 	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
 	if (monitor->mutabilitas->is_sitting == NULL)
-		return (1);
-	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
-	if (monitor->mutabilitas->is_speaking == NULL)
 		return (1);
 	monitor->mutabilitas->symposium_state = malloc(sizeof(int));
 	if (monitor->mutabilitas->symposium_state == NULL)

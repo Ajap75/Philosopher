@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 14:12:30 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:28:37 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	set_has_eaten_enough(monitor, 0);
 	set_is_sitting(monitor, 0);
 	set_symposium_state(monitor, -1);
-	set_is_speaking(monitor, 0);
 	monitor->philos = malloc(sizeof(t_philo) * monitor->veritas->nbr_philo);
 	if (monitor->philos == NULL)
 		return (print_error_message(MALLOC_ERROR), 1);
@@ -94,8 +93,7 @@ int	init_philo_mutex(t_monitor *monitor, int i)
 
 int	init_monitor_mutex(t_monitor *monitor)
 {
-	if (pthread_mutex_init(&monitor->mutex.is_speaking, NULL) != 0
-		|| pthread_mutex_init(&monitor->mutex.is_sitting, NULL) != 0
+	if (pthread_mutex_init(&monitor->mutex.is_sitting, NULL) != 0
 		|| pthread_mutex_init(&monitor->mutex.symposium_state, NULL) != 0
 		|| pthread_mutex_init(&monitor->mutex.has_eaten_enough, NULL) != 0)
 		return (1);

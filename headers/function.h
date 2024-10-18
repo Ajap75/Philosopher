@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:01:27 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 15:29:13 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,8 +108,6 @@ void			i_am_sitting(t_monitor *monitor);
 int				get_is_sitting(t_monitor *monitor);
 void			set_symposium_state(t_monitor *monitor, int symposium_state);
 int				get_symposium_state(t_monitor *monitor);
-void			set_is_speaking(t_monitor *monitor, int is_speaking);
-int				get_is_speaking(t_monitor *monitor);
 void			set_last_meal_time(t_philo *ph, long long current_time);
 long long		get_last_meal_time(t_philo *ph);
 void			i_finished_lunch(t_philo *philo);
