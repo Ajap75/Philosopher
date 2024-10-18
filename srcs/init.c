@@ -6,27 +6,19 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/25 11:12:48 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 11:24:53 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:01:01 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/function.h"
 #include "../headers/structure.h"
 
-
-
-void	init_monitor(t_monitor *monitor, int argc, char *argv[])
+int	init_monitor(t_monitor *monitor, int argc, char *argv[])
 {
-	monitor->veritas = malloc(sizeof(t_veritas));
-	monitor->mutabilitas = malloc(sizeof(t_mutabilitas));
-	pthread_mutex_init(&monitor->mutex.is_speaking, NULL);
-	pthread_mutex_init(&monitor->mutex.is_sitting, NULL);
-	pthread_mutex_init(&monitor->mutex.symposium_state, NULL);
-	pthread_mutex_init(&monitor->mutex.has_eaten_enough, NULL);
-	monitor->mutabilitas->has_eaten_enough = malloc(sizeof(int));
-	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
-	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
-	monitor->mutabilitas->symposium_state = malloc(sizeof(int));
+	if (ft_malloc(monitor) == 1)
+		return (print_error_message(MALLOC_ERROR), 1);
+	if (init_monitor_mutex(monitor) == 1)
+		return (print_error_message(MUTEX_INIT_ERROR), 1);
 	monitor->veritas->nbr_philo = ft_atol(argv[1]);
 	monitor->veritas->time_to_die = ft_atol(argv[2]);
 	monitor->veritas->time_to_eat = ft_atol(argv[3]);
@@ -37,35 +29,42 @@ void	init_monitor(t_monitor *monitor, int argc, char *argv[])
 	set_symposium_state(monitor, -1);
 	set_is_speaking(monitor, 0);
 	monitor->philos = malloc(sizeof(t_philo) * monitor->veritas->nbr_philo);
+	if (monitor->philos == NULL)
+		return (print_error_message(MALLOC_ERROR), 1);
 	if (argc == 6)
 		monitor->veritas->meal_target = ft_atol(argv[5]);
 	else
 		monitor->veritas->meal_target = -1;
-	pthread_create(&monitor->monitor, NULL, (void *)routine_monitor, monitor);
-	return ;
-}
-void	init_fork(t_monitor *monitor, t_philo *philo)
-{
-	init_left_fork(philo);
-	if (monitor->veritas->nbr_philo > 1)
-		init_right_fork(monitor, philo);
-
+	if (pthread_create(&monitor->monitor, NULL, (void *)routine_monitor,
+			monitor) != 0)
+		return (print_error_message(THREAD_INIT), 1);
+	return (0);
 }
 
-void	init_left_fork(t_philo *philo)
+int	ft_malloc(t_monitor *monitor)
 {
-	pthread_mutex_init(&philo->mutex.lf, NULL);
-}
-void	init_right_fork(t_monitor *monitor, t_philo *philo)
-{
-	if (philo->id == monitor->veritas->nbr_philo)
-		philo->mutex.rf = &monitor->philos[0].mutex.lf;
-	else
-		philo->mutex.rf = &monitor->philos[philo->id].mutex.lf;
-	// keep in mind that the philosophers are stored in an array -> Ph[0].id = 1
+	monitor->veritas = malloc(sizeof(t_veritas));
+	if (monitor->veritas == NULL)
+		return (1);
+	monitor->mutabilitas = malloc(sizeof(t_mutabilitas));
+	if (monitor->mutabilitas == NULL)
+		return (1);
+	monitor->mutabilitas->has_eaten_enough = malloc(sizeof(int));
+	if (monitor->mutabilitas->has_eaten_enough == NULL)
+		return (1);
+	monitor->mutabilitas->is_sitting = malloc(sizeof(int));
+	if (monitor->mutabilitas->is_sitting == NULL)
+		return (1);
+	monitor->mutabilitas->is_speaking = malloc(sizeof(int));
+	if (monitor->mutabilitas->is_speaking == NULL)
+		return (1);
+	monitor->mutabilitas->symposium_state = malloc(sizeof(int));
+	if (monitor->mutabilitas->symposium_state == NULL)
+		return (1);
+	return (0);
 }
 
-void	init_philos(t_monitor *monitor)
+int	init_philos(t_monitor *monitor)
 {
 	int	i;
 
@@ -80,12 +79,21 @@ void	init_philos(t_monitor *monitor)
 		monitor->philos[i].meals_eaten = 0;
 		monitor->philos[i].veritas = monitor->veritas;
 		monitor->philos[i].monitor = monitor;
-		pthread_mutex_init(&monitor->philos[i].mutex.last_meal_time, NULL);
-		pthread_mutex_init(&monitor->philos[i].mutex.meals_eaten, NULL);
-		pthread_mutex_init(&monitor->philos[i].mutex.life, NULL);
-		init_fork(monitor, &monitor->philos[i]);
+		if (init_philo_mutex(monitor, i) == 1 || init_fork(monitor,
+				&monitor->philos[i]) == 1)
+			return (1);
 		i++;
 	}
+	i = 0;
+	if (init_philo_thread(monitor) == 1)
+		return (1);
+	return (0);
+}
+
+int	init_philo_thread(t_monitor *monitor)
+{
+	int	i;
+
 	i = 0;
 	while (i < monitor->veritas->nbr_philo)
 	{
@@ -93,6 +101,26 @@ void	init_philos(t_monitor *monitor)
 				&monitor->philos[i]) == 0)
 			i++;
 		else
-			exit(EXIT_FAILURE);
+			return (print_error_message(THREAD_INIT), 1);
 	}
+	return (0);
+}
+
+int	init_philo_mutex(t_monitor *monitor, int i)
+{
+	if (pthread_mutex_init(&monitor->philos[i].mutex.last_meal_time, NULL) != 0
+		|| pthread_mutex_init(&monitor->philos[i].mutex.meals_eaten, NULL) != 0
+		|| pthread_mutex_init(&monitor->philos[i].mutex.life, NULL) != 0)
+		return (1);
+	return (0);
+}
+
+int	init_monitor_mutex(t_monitor *monitor)
+{
+	if (pthread_mutex_init(&monitor->mutex.is_speaking, NULL) != 0
+		|| pthread_mutex_init(&monitor->mutex.is_sitting, NULL) != 0
+		|| pthread_mutex_init(&monitor->mutex.symposium_state, NULL) != 0
+		|| pthread_mutex_init(&monitor->mutex.has_eaten_enough, NULL) != 0)
+		return (1);
+	return (0);
 }

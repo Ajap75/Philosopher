@@ -6,13 +6,12 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/02 11:01:38 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 15:57:03 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:57:05 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../headers/function.h"
 #include "../headers/structure.h"
-
 
 void	set_has_eaten_enough(t_monitor *monitor, int has_eaten_enough)
 {
@@ -20,7 +19,6 @@ void	set_has_eaten_enough(t_monitor *monitor, int has_eaten_enough)
 	*monitor->mutabilitas->has_eaten_enough = has_eaten_enough;
 	pthread_mutex_unlock(&monitor->mutex.has_eaten_enough);
 }
-
 
 void	update_fed_philos_count(t_monitor *monitor, int i)
 {
@@ -42,17 +40,16 @@ int	get_fed_philos_count(t_monitor *monitor)
 void	i_finished_lunch(t_philo *philo)
 {
 	pthread_mutex_lock(&philo->mutex.meals_eaten);
-	philo->meals_eaten +=1;
+	philo->meals_eaten += 1;
 	pthread_mutex_unlock(&philo->mutex.meals_eaten);
 }
 
 int	get_meals_eaten(t_philo *philo)
 {
-	int tmp;
+	int	tmp;
+
 	pthread_mutex_lock(&philo->mutex.meals_eaten);
 	tmp = philo->meals_eaten;
 	pthread_mutex_unlock(&philo->mutex.meals_eaten);
 	return (tmp);
 }
-
-

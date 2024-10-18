@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 18:12:26 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:01:27 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,18 @@
 # define FUNCTION_H
 # define EATING 1
 # define SLEEPING 2
-# define HAS_TAKEN_A_FORK 9
+# define HAS_TAKEN_A_FORK 15
 # define START_ACTION 3
 # define END_ACTION 4
 # define THINKING 5
-# define READY 6
-# define STOP 7
-# define APERO 8
+# define READY 12
+# define STOP 13
+# define APERO 14
 # define ALIVE 10
 # define DEAD 11
+# define MALLOC_ERROR 7
+# define MUTEX_INIT_ERROR 8
+# define THREAD_INIT 9
 # define YELLOW "\033[0;33m"
 # define GREEN "\033[0;32m"
 # define BLUE "\033[0;34m"
@@ -63,11 +66,16 @@ void			print_forks(t_monitor *monitor);
 int				ft_usleep(unsigned long millisecond);
 
 // Initialisation
-void			init_philos(t_monitor *monitor);
-void			init_fork(t_monitor *monitor, t_philo *philo);
-void			init_left_fork(t_philo *philo);
+
+int				init_philos(t_monitor *monitor);
+int				ft_malloc(t_monitor *monitor);
+int				init_philo_thread(t_monitor *monitor);
+int				init_philo_mutex(t_monitor *monitor, int i);
+int				init_fork(t_monitor *monitor, t_philo *philo);
+int				init_left_fork(t_philo *philo);
 void			init_right_fork(t_monitor *monitor, t_philo *philo);
-void			init_monitor(t_monitor *monitor, int argc, char *argv[]);
+int				init_monitor(t_monitor *monitor, int argc, char *argv[]);
+int				init_monitor_mutex(t_monitor *monitor);
 
 // Routine monitor
 void			*routine_monitor(void *arg);

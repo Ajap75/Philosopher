@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:08:31 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 16:09:22 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:57:18 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,9 @@ void	set_symposium_state(t_monitor *monitor, int symposium_state)
 int	get_symposium_state(t_monitor *monitor)
 {
 	int	tmp;
+
 	pthread_mutex_lock(&monitor->mutex.symposium_state);
 	tmp = *monitor->mutabilitas->symposium_state;
 	pthread_mutex_unlock(&monitor->mutex.symposium_state);
 	return (tmp);
 }
-
-
-
-

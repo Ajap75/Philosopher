@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:09:13 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 15:52:50 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 10:57:22 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	get_is_speaking(t_monitor *monitor)
 	return (tmp);
 }
 
-
 void	set_is_sitting(t_monitor *monitor, int is_sitting)
 {
 	pthread_mutex_lock(&monitor->mutex.is_sitting);
@@ -41,6 +40,6 @@ void	set_is_sitting(t_monitor *monitor, int is_sitting)
 void	i_am_sitting(t_monitor *monitor)
 {
 	pthread_mutex_lock(&monitor->mutex.is_sitting);
-	*monitor->mutabilitas->is_sitting +=1;
+	*monitor->mutabilitas->is_sitting += 1;
 	pthread_mutex_unlock(&monitor->mutex.is_sitting);
 }
