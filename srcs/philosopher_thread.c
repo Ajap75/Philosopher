@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 18:05:39 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:50:43 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	*routine(void *arg)
 			if (get_symposium_state(philo->monitor) == 1)
 				think(philo);
 			else
-				return (void *)(NULL);
+				return ((void *)(NULL));
 		}
 	}
-	return (void *)(NULL);
+	return ((void *)(NULL));
 }
 
 void	eat(t_philo *philo)
@@ -49,14 +49,13 @@ void	eat(t_philo *philo)
 	}
 	return ;
 }
+
 void	think(t_philo *philo)
 {
 	int	is_odd;
 
 	philo->statut = THINKING;
 	speak(philo, philo->statut);
-	// if (philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
-	// 	ft_usleep(philo->monitor->veritas->time_to_eat - philo->monitor->veritas->time_to_sleep);
 	if (philo->id % 2 != 0)
 		is_odd = 5;
 	else
@@ -114,10 +113,35 @@ This staggered approach helps balance the contention for
  forks and allows some philosophers to eat while others wait,
 avoiding deadlock and unnecessary contention. */
 
-/*I implemented three stage of synchronisation to avoid the death of a philosopher.
+/*
+First Stage of Synchronization:
 
-1) The odd philos jump in the simulation (eat, sleep, thing) loop, with a delay of 10ms. Solve the problem in classics simulation condition (even number of philos)
+Odd-numbered philosophers start the simulation loop (eat, sleep, think) with a
+delay of 10ms. This initial stagger prevents immediate contention over shared
+resources (forks) and resolves issues under classic simulation conditions,
+especially when the number of philosophers is even.
 
-2) Every odd philosopher delay their eat action by 5ms in one meal of two. I think we can even simplify applying this delay only to the last or the first philosopher.
+Second Stage of Synchronization:
 
-3) When the sleep time is lower than the eat time and it's an odd number of philos simulation. Those begining to eat the first meal and those having the second meal, will be already in line for the third meal and lock the mutex blocking the looser of the two first meal to eat. */
+Every odd-numbered philosopher delays their eating action by 5ms on every second
+meal (i.e., one meal out of two). This additional delay helps to further
+distribute resource access and can be simplified by applying it only to the
+first or last philosopher.
+
+Third Stage of Synchronization:
+
+When the simulation involves an odd number of philosophers and the time to sleep
+is shorter than or equal to the time to eat, a synchronization mechanism is
+needed to prevent certain philosophers from monopolizing the forks.
+
+Without intervention, philosophers who start eating first can continually
+acquire the forks ahead of others, leading to starvation of some philosophers.
+
+To counter this, we introduce a calculated delay during the thinking phase for
+odd-numbered philosophers. This delay aligns the timing of philosophers
+attempting to eat, ensuring that all have a fair chance to acquire the forks.
+
+By strategically delaying certain philosophers, we prevent resource conflicts
+and promote equitable access, thereby avoiding deadlocks and ensuring the smooth
+progression of the simulation.
+*/

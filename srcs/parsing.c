@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:42:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 11:58:42 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:39:56 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,20 @@ void	print_error_message(int error_code)
 	if (error_code == 1)
 		printf("\033[0;33mParsing error : Args must be integer\033[0m.\n");
 	else if (error_code == 2)
-		printf("\033[0;33mParsing error : Args must be stricly positive int.\033[0m\n");
+		printf("\033[0;33mParsing error : \
+		Args must be stricly positive int.\033[0m\n");
 	else if (error_code == 3)
-		printf("\033[0;33mParsing error : The number of philosophers must be between 1 and 200 inclusive.\033[0m\n");
+		printf("\033[0;33mParsing error : \
+			The number of philosophers must be between \
+			1 and 200 inclusive.\033[0m\n");
 	else if (error_code == 4)
-		printf("\033[0;33mParsing error : Not enough or too many arguments. 4 or 5 arguments required.\033[0m\n");
+		printf("\033[0;33mParsing error : \
+		Not enough or too many arguments. 4 or 5 arguments required.\033[0m\n");
 	else if (error_code == 5)
 		printf("\033[0;33mParsing error : Empty string passed as arg\033[0m\n");
 	else if (error_code == 6)
-		printf("\033[0;33mParsing error : Sleep and eat time must be greater than 60ms inclusive.\033[0m\n");
+		printf("\033[0;33mParsing error : \
+		Sleep and eat time must be greater than 60ms inclusive.\033[0m\n");
 	else if (error_code == 7)
 		printf("\033[0;33mMALLOC ERROR.\033[0m\n");
 	else if (error_code == 8)
@@ -110,4 +115,3 @@ void	print_error_message(int error_code)
 	else if (error_code == 9)
 		printf("\033[0;33mTHREAD_INIT_ERROR.\033[0m\n");
 }
-

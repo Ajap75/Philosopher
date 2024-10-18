@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:06:59 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 15:24:06 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:39:00 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	ft_usleep(size_t millisecond)
 
 unsigned long	get_time(void)
 {
-	struct timeval current_time;
+	struct timeval	current_time;
 
 	gettimeofday(&current_time, NULL);
 	return (((long long)current_time.tv_sec * 1000) + (current_time.tv_usec

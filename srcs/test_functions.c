@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 11:40:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 15:07:38 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:51:07 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	printf_forks(pthread_mutex_t *pthread_mutex)
 {
 	printf("Mutex adress = %p\n", (void *)pthread_mutex);
 }
+
 void	print_forks(t_monitor *monitor)
 {
 	int	i;

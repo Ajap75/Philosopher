@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/17 17:18:20 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:36:44 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	*routine_monitor(void *arg)
 	while (1)
 	{
 		if (is_everybody_sitting(monitor) == 1)
-			break;
+			break ;
 	}
 	while (1)
 	{
@@ -34,15 +34,14 @@ void	*routine_monitor(void *arg)
 			who_has_died(monitor);
 		}
 		else
-			return (void *)(NULL);
+			return ((void *)(NULL));
 	}
-	return (void *)(NULL);
+	return ((void *)(NULL));
 }
-
 
 int	who_has_died(t_monitor *monitor)
 {
-	int	i;
+	int			i;
 	long long	current_time;
 	long long	last_meal_time;
 
@@ -54,7 +53,6 @@ int	who_has_died(t_monitor *monitor)
 		if ((current_time - last_meal_time >= monitor->veritas->time_to_die))
 		{
 			speak(&monitor->philos[i], DEAD);
-			// set_symposium_state(monitor, -1);
 			return (0);
 		}
 		i++;
@@ -64,15 +62,16 @@ int	who_has_died(t_monitor *monitor)
 
 void	who_has_eaten_enough(t_monitor *monitor)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
+
 	i = 0;
 	j = 0;
 	if (get_fed_philos_count(monitor) == monitor->veritas->nbr_philo)
-		{
-			set_symposium_state(monitor, -1);
-			return ;
-		}
+	{
+		set_symposium_state(monitor, -1);
+		return ;
+	}
 	while (i < monitor->veritas->nbr_philo)
 	{
 		if (get_meals_eaten(&monitor->philos[i]) >= monitor->veritas->meal_target)
@@ -84,11 +83,11 @@ void	who_has_eaten_enough(t_monitor *monitor)
 
 int	is_everybody_sitting(t_monitor *monitor)
 {
-	int i;
+	int	i;
+
 	i = 0;
 	if (get_is_sitting(monitor) == monitor->veritas->nbr_philo)
 	{
-
 		monitor->veritas->start_time = get_time();
 		while (i < monitor->veritas->nbr_philo)
 		{
@@ -100,4 +99,3 @@ int	is_everybody_sitting(t_monitor *monitor)
 	}
 	return (0);
 }
-

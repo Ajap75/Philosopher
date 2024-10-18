@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:35:04 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 10:56:53 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/18 12:49:38 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	free_everything(t_monitor *monitor)
 	int	i;
 
 	i = 0;
-
 	if (monitor->mutabilitas->has_eaten_enough != NULL)
 		free(monitor->mutabilitas->has_eaten_enough);
 	if (monitor->mutabilitas->is_sitting != NULL)
