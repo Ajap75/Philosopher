@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:24:06 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/22 16:16:31 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:52:31 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	even_philo_eat(t_philo *philo)
 	speak(philo, philo->statut);
 	if (philo->veritas->time_to_die < philo->veritas->time_to_eat)
 	{
-		ft_usleep(philo->veritas->time_to_die + 1);
+		ft_usleep(philo->veritas->time_to_die);
 	}
 	else
 		ft_usleep(philo->monitor->veritas->time_to_eat);

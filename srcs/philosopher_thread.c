@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/22 16:19:26 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:59:17 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,12 @@ void	*routine(void *arg)
 	{
 		if (am_i_dead(philo) == 0)
 			eat(philo);
-		if (am_i_dead(philo) == 0)
+		if (am_i_dead(philo) == 0
+			&& (philo->veritas->time_to_die > philo->veritas->time_to_eat))
 			bedtime(philo);
-		if (am_i_dead(philo) == 0)
+		if (am_i_dead(philo) == 0
+			&& (philo->veritas->time_to_die > (philo->veritas->time_to_eat
+					+ philo->veritas->time_to_sleep)))
 			think(philo);
 	}
 	return ((void *)(NULL));
@@ -76,8 +79,7 @@ void	think(t_philo *philo)
 	else
 		is_odd = 0;
 	if (philo->monitor->veritas->nbr_philo % 2 != 0
-		&& philo->monitor->veritas->time_to_eat > \
-		philo->monitor->veritas->time_to_sleep)
+		&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
 		ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
 				- philo->monitor->veritas->time_to_sleep));
 }
