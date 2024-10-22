@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/24 17:48:09 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 15:29:08 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:11:48 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-struct	s_monitor;
-typedef struct	s_monitor	t_monitor;
+typedef struct s_monitor	t_monitor;
 
 typedef struct s_symposium_veritas
 {
@@ -33,19 +32,15 @@ typedef struct s_symposium_veritas
 
 typedef struct s_symposium_mutabilitas
 {
-	int						*dead_ph_id;
-	int						*has_eaten_enough;
-	int						*is_sitting;
-	int						*symposium_state;
+	int						*full;
+	int						*speak;
+	int						*stop_flag;
 }							t_mutabilitas;
 
 typedef struct s_m_mutex
 {
-	pthread_mutex_t			dead_ph;
-	pthread_mutex_t			has_eaten_enough;
-	pthread_mutex_t			is_sitting;
-	pthread_mutex_t			symposium_state;
-
+	pthread_mutex_t			full;
+	pthread_mutex_t			speak;
 }							t_m_mutex;
 
 typedef struct s_ph_mutex
@@ -53,9 +48,8 @@ typedef struct s_ph_mutex
 	pthread_mutex_t			lf;
 	pthread_mutex_t			*rf;
 	pthread_mutex_t			last_meal_time;
-	pthread_mutex_t			meals_eaten;
-	pthread_mutex_t			life;
 	pthread_mutex_t			statut;
+	pthread_mutex_t			stop_flag;
 }							t_ph_mutex;
 
 /*
@@ -73,8 +67,8 @@ typedef struct s_philo
 {
 	pthread_t				ph;
 	int						id;
+	int						stop_flag;
 	int						statut;
-	int						life;
 	t_veritas				*veritas;
 	int						meals_eaten;
 	unsigned long			last_meal_time;

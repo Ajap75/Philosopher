@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:20:26 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:38:28 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:38:58 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ int	is_arg_digit(int argc, char **argv)
 		j = 0;
 		while (argv[i][j])
 		{
-			if (argv[i][j] == '-' || argv[i][j] == '+')
+			if ((argv[i][j] == '-' || argv[i][j] == '+') && argv[i][j
+				+ 1] == '\0')
 				j++;
 			if (ft_isdigit(argv[i][j]) == 0)
 			{

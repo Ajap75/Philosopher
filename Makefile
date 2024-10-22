@@ -6,14 +6,14 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/08 15:22:31 by anastruc          #+#    #+#              #
-#    Updated: 2024/10/18 14:30:48 by anastruc         ###   ########.fr        #
+#    Updated: 2024/10/22 17:16:36 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-NAME = philosopher
+NAME = philo
 COMPIL = cc
-FLAGS = -Wall -Werror -Wextra -pthread 
+FLAGS = -Wall -Werror -Wextra -pthread
 # -fno-omit-frame-pointer -fsanitize=address -fsanitize=undefined -fsanitize=integer -fsanitize=null -fsanitize=unreachable
 #ATTENTION FLAG A UTILISER SEPAREMENT DE VALGRIND
 PINK = \033[1;35m
@@ -23,23 +23,19 @@ NC = \033[0m
 HEADER_F = headers/function.h \
 			headers/structure.h \
 
-MANDATORY_SRCS = parsing.c \
-				 parsing_utils.c \
-				 main.c \
-				 init.c \
-				 init2.c \
-				 philosopher_thread.c \
-				 philosopher_thread_utils.c \
+MANDATORY_SRCS =parsing.c \
+				parsing_utils.c \
+				main.c \
+				init.c \
+				init2.c \
+				philosopher_thread.c \
+				philosopher_thread2.c \
 				monitor_thread.c \
 				getter_setter.c \
-				getter_setter2.c \
-				getter_setter3.c \
-				getter_setter4.c \
 				support_function.c \
 				clean_and_free.c \
 				test_functions.c \
 
-# Magic with srcs and objs #
 
 PMANDATORY = $(addprefix srcs/, $(MANDATORY_SRCS))
 

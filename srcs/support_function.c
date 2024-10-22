@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:06:59 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:39:00 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:15:07 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_usleep(size_t millisecond)
 	start = get_time();
 	while (get_time() - start < millisecond)
 	{
-		usleep(10);
+		usleep(1);
 	}
 	return (0);
 }
@@ -32,4 +32,16 @@ unsigned long	get_time(void)
 	gettimeofday(&current_time, NULL);
 	return (((long long)current_time.tv_sec * 1000) + (current_time.tv_usec
 			/ 1000));
+}
+
+int	am_i_dead(t_philo *philo)
+{
+	pthread_mutex_lock(&philo->mutex.stop_flag);
+	if (philo->stop_flag == 1)
+	{
+		pthread_mutex_unlock(&philo->mutex.stop_flag);
+		return (1);
+	}
+	pthread_mutex_unlock(&philo->mutex.stop_flag);
+	return (0);
 }

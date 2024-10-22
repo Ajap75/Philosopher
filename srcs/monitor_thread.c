@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/08 15:15:29 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 14:13:43 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:13:03 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,15 @@ void	*routine_monitor(void *arg)
 	t_monitor	*monitor;
 
 	monitor = (t_monitor *)arg;
-	while (1)
+	while (get_time() < (monitor->veritas->start_time) + 5)
 	{
-		if (is_everybody_sitting(monitor) == 1)
-			break ;
+		ft_usleep(1);
 	}
-	while (1)
+	while (*monitor->mutabilitas->stop_flag == 0)
 	{
-		if (get_symposium_state(monitor) == 1)
-		{
-			if (monitor->veritas->meal_target != -1)
-			{
-				who_has_eaten_enough(monitor);
-			}
-			who_has_died(monitor);
-		}
-		else
-			return ((void *)(NULL));
+		if (monitor->veritas->meal_target != -1)
+			is_everybody_full(monitor);
+		who_has_died(monitor);
 	}
 	return ((void *)(NULL));
 }
@@ -52,6 +44,7 @@ int	who_has_died(t_monitor *monitor)
 		last_meal_time = get_last_meal_time(&monitor->philos[i]);
 		if ((current_time - last_meal_time >= monitor->veritas->time_to_die))
 		{
+			stop_flag(monitor);
 			speak(&monitor->philos[i], DEAD);
 			return (0);
 		}
@@ -60,43 +53,27 @@ int	who_has_died(t_monitor *monitor)
 	return (0);
 }
 
-void	who_has_eaten_enough(t_monitor *monitor)
+void	is_everybody_full(t_monitor *monitor)
 {
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (get_fed_philos_count(monitor) == monitor->veritas->nbr_philo)
+	pthread_mutex_lock(&monitor->mutex.full);
+	if (*monitor->mutabilitas->full == monitor->veritas->nbr_philo)
 	{
-		set_symposium_state(monitor, -1);
-		return ;
+		stop_flag(monitor);
+		*monitor->mutabilitas->stop_flag = 1;
 	}
-	while (i < monitor->veritas->nbr_philo)
-	{
-		if (get_meals_eaten(&monitor->philos[i]) >= \
-		monitor->veritas->meal_target)
-			j++;
-		i++;
-	}
-	update_fed_philos_count(monitor, j);
+	pthread_mutex_unlock(&monitor->mutex.full);
 }
 
-int	is_everybody_sitting(t_monitor *monitor)
+void	stop_flag(t_monitor *monitor)
 {
 	int	i;
 
 	i = 0;
-	if (get_is_sitting(monitor) == monitor->veritas->nbr_philo)
+	while (i < monitor->veritas->nbr_philo)
 	{
-		monitor->veritas->start_time = get_time();
-		while (i < monitor->veritas->nbr_philo)
-		{
-			monitor->philos[i].last_meal_time = monitor->veritas->start_time;
-			i++;
-		}
-		set_symposium_state(monitor, 1);
-		return (1);
+		pthread_mutex_lock(&monitor->philos[i].mutex.stop_flag);
+		monitor->philos[i].stop_flag = 1;
+		pthread_mutex_unlock(&monitor->philos[i].mutex.stop_flag);
+		i++;
 	}
-	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:48:08 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 11:32:59 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/22 16:12:48 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int	main(int argc, char *argv[])
 		clean(&monitor);
 		return (1);
 	}
+	if (pthread_create(&monitor.monitor, NULL, (void *)routine_monitor,
+			&monitor) != 0)
+		return (print_error_message(THREAD_INIT), 1);
+	if (init_philo_thread(&monitor) == 1)
+		return (1);
 	join_threads(&monitor);
 	clean(&monitor);
 	return (0);
