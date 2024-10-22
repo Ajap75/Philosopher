@@ -6,7 +6,7 @@
 #    By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/08 15:22:31 by anastruc          #+#    #+#              #
-#    Updated: 2024/10/22 17:16:36 by anastruc         ###   ########.fr        #
+#    Updated: 2024/10/22 17:33:51 by anastruc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -72,5 +72,5 @@ re : fclean all
 
 
 
-# clear && make && valgrind --suppressions=ignore_leak_readline --leak-check=full --show-leak-kinds=all  --trace-children=yes ./minishell
+# clear && make && valgrind  --suppressions=ignore_leak_readline --leak-check=full --show-leak-kinds=all  --trace-children=yes ./minishell
 
