@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/16 14:24:06 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/22 17:52:31 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:17:00 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ void	even_philo_eat(t_philo *philo)
 	take_left_fork_first(philo);
 	philo->statut = EATING;
 	speak(philo, philo->statut);
+	set_last_meal_time(philo, get_time());
 	if (philo->veritas->time_to_die < philo->veritas->time_to_eat)
 	{
 		ft_usleep(philo->veritas->time_to_die);
 	}
 	else
 		ft_usleep(philo->monitor->veritas->time_to_eat);
-	set_last_meal_time(philo, get_time());
 	i_finished_lunch(philo);
 	pthread_mutex_unlock(&philo->mutex.lf);
 	pthread_mutex_unlock(philo->mutex.rf);
@@ -33,18 +33,18 @@ void	even_philo_eat(t_philo *philo)
 void	odd_philo_eat(t_philo *philo)
 {
 	if (philo->meals_eaten % 2 != 0)
-		ft_usleep(5);
+		ft_usleep(2);
 	take_right_fork_first(philo);
 	{
 		philo->statut = EATING;
 		speak(philo, philo->statut);
+		set_last_meal_time(philo, get_time());
 		if (philo->veritas->time_to_die < philo->veritas->time_to_eat)
 		{
 			ft_usleep(philo->veritas->time_to_die);
 		}
 		else
 			ft_usleep(philo->monitor->veritas->time_to_eat);
-		set_last_meal_time(philo, get_time());
 		i_finished_lunch(philo);
 	}
 	pthread_mutex_unlock(philo->mutex.rf);

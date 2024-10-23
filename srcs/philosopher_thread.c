@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/23 11:28:34 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/23 12:23:09 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	pre_drink(philo);
 	if (philo->id % 2 == 0)
-		ft_usleep(5);
+		ft_usleep(2);
 	while (am_i_dead(philo) == 0)
 	{
 		if (am_i_dead(philo) == 0)
@@ -79,7 +79,7 @@ void	think(t_philo *philo)
 	philo->statut = THINKING;
 	speak(philo, philo->statut);
 	if (philo->id % 2 != 0)
-		is_odd = 5;
+		is_odd = 2;
 	else
 		is_odd = 0;
 	if (philo->monitor->veritas->nbr_philo % 2 != 0
