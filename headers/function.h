@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/30 12:37:44 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/22 16:03:45 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:23:26 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void			stop_flag(t_monitor *monitor);
 void			*routine(void *arg);
 void			pre_drink(t_philo *philo);
 void			think(t_philo *philo);
+void			i_am_alone(t_philo *philo);
 void			eat(t_philo *philo);
 void			even_philo_eat(t_philo *philo);
 void			odd_philo_eat(t_philo *philo);

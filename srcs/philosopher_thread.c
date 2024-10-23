@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 10:10:39 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/22 17:59:17 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:28:34 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ void	pre_drink(t_philo *philo)
 
 void	eat(t_philo *philo)
 {
-	if (philo->veritas->nbr_philo > 1)
+	if (philo->veritas->nbr_philo == 1)
+	{
+		i_am_alone(philo);
+		return ;
+	}
 	{
 		if (philo->id % 2 == 0)
 			even_philo_eat(philo);
@@ -79,7 +83,8 @@ void	think(t_philo *philo)
 	else
 		is_odd = 0;
 	if (philo->monitor->veritas->nbr_philo % 2 != 0
-		&& philo->monitor->veritas->time_to_eat > philo->monitor->veritas->time_to_sleep)
+		&& philo->monitor->veritas->time_to_eat > \
+		philo->monitor->veritas->time_to_sleep)
 		ft_usleep(is_odd + (philo->monitor->veritas->time_to_eat
 				- philo->monitor->veritas->time_to_sleep));
 }
