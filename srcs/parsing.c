@@ -6,7 +6,7 @@
 /*   By: anastruc <anastruc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/01 11:42:42 by anastruc          #+#    #+#             */
-/*   Updated: 2024/10/18 12:39:56 by anastruc         ###   ########.fr       */
+/*   Updated: 2024/10/23 11:36:31 by anastruc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,8 @@ int	parsing(int argc, char **argv)
 void	print_error_message(int error_code)
 {
 	if (error_code == 1)
-		printf("\033[0;33mParsing error : Args must be integer\033[0m.\n");
+		printf("\033[0;33mParsing error : \
+		Args must be positive integer\033[0m.\n");
 	else if (error_code == 2)
 		printf("\033[0;33mParsing error : \
 		Args must be stricly positive int.\033[0m\n");
